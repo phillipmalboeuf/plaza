@@ -1,0 +1,129 @@
+
+
+
+// #LABELS
+
+label,
+.label {
+	cursor: pointer;
+	display: block;
+
+	font-family: $alternate_font;
+	font-weight: normal;
+	margin-bottom: $vertical_rythm/2;
+
+	input[type="checkbox"] + &,
+	input[type="radio"] + & {
+		display: inline-block;
+	}
+}
+
+
+// #INPUTS
+
+input[type="text"],
+input[type="password"],
+input[type="url"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="search"],
+input[type="file"],
+input[type="date"],
+input[type="datetime-local"],
+optgroup,
+select,
+textarea,
+.input {
+	position: relative;
+	width: 100%;
+
+	font-family: $alternate_font;
+	font-size: $medium_size;
+	font-weight: bold;
+
+	background: $white;
+	padding: $vertical_rythm/2;
+	margin-bottom: $vertical_rythm;
+	border: 1px solid fade-out($highlight, 0.75);
+	border-radius: $border_radius;
+
+
+	@include transition(background $fast, color $fast, border-color $fast, opacity $fast);
+
+	&:active {
+		background: fade-out($white, 0.5);
+	}
+
+	&:focus {
+		border: 1px solid fade-out($highlight, 0.25);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
+	&.input--underline {
+		padding: $vertical_rythm/2 0;
+		border-bottom: 1px dashed;
+	}
+
+	&.input--inline {
+		display: inline-block;
+		width: auto;
+
+		font-size: inherit;
+		font-weight: inherit;
+		font-family: inherit;
+		padding: 0;
+	}
+}
+
+
+
+
+textarea {
+	height: $vertical_rythm*8;
+	padding: $vertical_rythm;
+	line-height: $line_height;
+
+	&.textarea--one_line {
+		padding: $vertical_rythm/2 $vertical_rythm;
+		height: auto;
+	}
+}
+
+
+select {
+	cursor: pointer;
+}
+
+input[type="search"] {
+	box-sizing: border-box;
+}
+
+// input[type="file"] {
+// 	display: block;
+// }
+
+input[type="checkbox"],
+input[type="radio"] {
+	cursor: pointer;
+}
+
+
+
+
+
+:focus {
+	outline: none;
+	-moz-outline-style: none;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder,
+input:-moz-placeholder, textarea:-moz-placeholder {
+	color: $grey;
+}
+
+

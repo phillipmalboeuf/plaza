@@ -1,0 +1,46 @@
+// #IMAGES
+
+img {
+	display: block;
+	max-width: 100%;
+
+	&.img--center {
+		margin: 0 auto;
+	}
+
+	&.img--full {
+		width: 100%;
+		margin: 0 auto $vertical_rythm;
+	}
+
+	&.img--round {
+		border-radius: 50%;
+	}
+
+	&.img--overflow {
+		max-width: calc(100% + #{$vertical_rythm*8});
+		margin: $vertical_rythm*8 -$vertical_rythm*4 0 -$vertical_rythm*4;
+
+		@media #{$small} {
+			max-width: 100%;
+			margin: $vertical_rythm*2 0 0 0;
+		}
+	}
+
+	&.img--clickable {
+		cursor: pointer;
+		position: relative;
+
+		border: 1px solid fade-out($black, 0.95);
+
+		@include transition(border-color $fast);
+
+		&:hover {
+			border-color: $highlight;
+		}
+
+		&:active {
+			top: 1px;
+		}
+	}
+}

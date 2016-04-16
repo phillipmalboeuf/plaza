@@ -1,0 +1,15 @@
+
+
+// #ADMIN
+
+.admin {
+	position: fixed;
+	bottom: $gutter/2;
+	right: $gutter/2;
+	z-index: 3;
+
+	padding: $gutter/1.5;
+
+	background: $white;
+	border-radius: $border_radius;
+}

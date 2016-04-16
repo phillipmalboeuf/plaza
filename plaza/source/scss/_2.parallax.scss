@@ -1,0 +1,21 @@
+
+
+
+// #PARALLAX
+
+.parallax {
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+}
+
+	.parallax__layer {
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		width: 100%;
+		max-width: 100%;
+	}

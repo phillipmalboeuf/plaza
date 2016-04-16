@@ -1,0 +1,42 @@
+
+{% extends "layout.html" %}
+
+{% block body_classes %}index{% endblock %}
+
+
+{% block main %}
+<div class="text_center js-piece" data-id="{{pieces.index._id}}">
+	<p>
+		<a href="{{pieces.index.address_link}}" target="_blank" data-link-key="address_link"><span data-key="address">{{pieces.index.address}}</span></a><br>
+		<a href="{{pieces.index.phone_link}}" target="_blank" data-link-key="phone_link" class="a--highlight"><span data-key="phone">{{pieces.index.phone}}</span></a><br>
+		<a href="{{pieces.index.email_link}}" target="_blank" data-link-key="email_link" class="a--highlight"><span data-key="email">{{pieces.index.email}}</span></a>
+	</p>
+
+	<p class="small">
+		<a href="{{pieces.index.facebook_link}}" target="_blank" data-link-key="facebook_link"><i class="icon-facebook"></i></a><a href="{{pieces.index.twitter_link}}" target="_blank" data-link-key="twitter_link"><i class="icon-twitter"></i></a><a href="{{pieces.index.instagram_link}}" target="_blank" data-link-key="instagram_link"><i class="icon-instagram"></i></a>
+	</p>
+
+	<p>
+		<img src="/build/images/_logo.png" alt="Logo" class="img--center" data-image-key="logo">
+	</p>
+
+	<p>
+		<span data-key="hours">{{pieces.index.hours|safe}}</span>
+	</p>
+	
+	<p>
+		<a href="{{pieces.index.reservation_link}}" target="_blank" data-link-key="reservation_link" class="a--highlight"><span data-key="reservation">{{pieces.index.reservation}}</span></a>
+	</p>
+
+	<p>
+		<a href="{{pieces.index.menu_link}}" target="_blank" data-link-key="menu_link"><span data-key="menu">{{pieces.index.menu}}</span></a><br>
+		<a href="{{pieces.index.menu_en_link}}" target="_blank" data-link-key="menu_en_link"><span data-key="menu_en">{{pieces.index.menu_en}}</span></a><br>
+		<a href="{{pieces.index.wines_link}}" target="_blank" data-link-key="wines_link"><span data-key="wines">{{pieces.index.wines}}</span></a>
+	</p>
+
+	<span data-piece-admin></span>
+</div>
+{% endblock %}
+
+
+

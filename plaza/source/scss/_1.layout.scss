@@ -1,0 +1,123 @@
+
+
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+
+
+// #BODY
+
+html {
+	
+}
+
+body {
+	position: relative;
+
+	width: 100%;
+	overflow-x: hidden;
+	min-height: 130vw;
+
+	background-color: $grey;
+	// background-image: url("/build/images/_back.jpg");
+	// background-position: top center;
+	// background-attachment: fixed;
+}
+
+
+
+// #HEADER
+
+header {
+	position: relative;
+	z-index: 2;
+
+	@extend .padded;
+}
+
+
+// #MAIN
+
+.main {
+	position: relative;
+	z-index: 1;
+
+	@extend .padded;
+
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+
+// #FOOTER
+
+footer {
+
+}
+
+
+// #BACKGROUNDS
+
+.black_back {
+	color: $white;
+	background-color: $black;
+}
+
+.grey_back {
+	background-color: $grey;
+}
+
+.faded_back {
+	background-color: fade-out($secondary, 0.9);
+}
+
+.white_back {
+	background-color: $white;
+}
+
+
+// #MIXINS
+
+.max_width {
+	width: 100%;
+	max-width: 1200px;
+}
+
+.padded {
+	padding: $gutter;
+
+	@media #{$small} {
+		padding: $gutter/2;
+	}
+
+	&.padded--thick {
+		padding: $gutter*1.5 $gutter*2;
+
+		@media #{$medium} {
+			padding: $gutter $gutter*1.5;
+		}
+
+		@media #{$small} {
+			padding: $gutter/2;
+		}
+	}
+}
+
+.huge_bottom { margin-bottom: $vertical_rythm*8; }
+.big_bottom { margin-bottom: $vertical_rythm*4; }
+.medium_bottom { margin-bottom: $vertical_rythm*2; }
+.small_bottom { margin-bottom: $vertical_rythm/2; }
+.flat_bottom { margin-bottom: 0 !important; }
+.medium_top { margin-top: $vertical_rythm*2; }
+
+.hide { display: none; }
+.inline_block { display: inline-block; }
+.right { float: right; }
+.text_center { text-align: center; }
+.text_right { text-align: right; }
+
+
+
+
+

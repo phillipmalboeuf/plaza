@@ -1,0 +1,53 @@
+
+// #COLORS
+
+$white: #fff;
+$black: #030303;
+$red: #d9330d;
+$blue: #cce3ec;
+$blue--dark: #82cce6;
+$grey: #e3e3e0;
+$green: #67823d;
+$yellow: #e2d5b2;
+$orange: #e3902b;
+
+$primary: $black;
+$highlight: $red;
+$secondary: $blue--dark;
+
+
+// #FONTS
+
+$body_font: "Chefryl", sans-serif;
+$headings_font: "Chefryl", sans-serif;
+$alternate_font: "Chefryl", sans-serif;
+
+
+// #LAYOUT
+
+$base_size: 24px;
+$huge_size: 48px;
+$big_size: 28px;
+$medium_size: 20px;
+$line_height: 28px;
+$vertical_rythm: 14px;
+$letter_spacing: 0.25em;
+$border_radius: 0;
+
+$number_of_columns: 12;
+$gutter: 1rem;
+
+
+// #ANIMATIONS
+
+$fast: 0.333s;
+$slow: 0.666s;
+$very_slow: 1.666s;
+
+
+// #BREAKPOINTS
+
+$small: "all and (max-device-width:800px), all and (max-width:800px)";
+$medium: "all and (max-device-width:1100px), all and (max-width:1100px)";
+$breakpoints: "medium" $medium, "small" $small;
+
