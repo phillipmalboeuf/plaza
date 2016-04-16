@@ -16,11 +16,12 @@ body {
 	position: relative;
 
 	width: 100%;
-	overflow-x: hidden;
 	min-height: 130vw;
+	overflow-x: hidden;
+	overflow-y: auto;
 
 	background-color: $grey;
-	// background-image: url("/build/images/_back.jpg");
+	background-image: url("/build/images/_back.jpg");
 	// background-position: top center;
 	// background-attachment: fixed;
 }

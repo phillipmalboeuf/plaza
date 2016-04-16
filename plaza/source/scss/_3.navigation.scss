@@ -7,6 +7,11 @@
 	@extend .grid--center;
 
 	padding: $gutter*2;
+
+	[contenteditable] {
+		position: relative;
+		z-index: 3;
+	}
 }
 
 	.navigation__link {
@@ -50,6 +55,10 @@
 		&:nth-child(8) {
 			margin-left: 0;
 			margin-right: -100px;
+		}
+
+		@media #{$small} {
+			margin: -30px !important;
 		}
 	}
 
