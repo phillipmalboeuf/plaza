@@ -22,8 +22,7 @@ window.Plaza =
 		@admin_view = new Plaza.Views.Admin()
 
 		@router = new Plaza.Routers.Router()
-		Backbone.history.start
-			pushState: true
+		Backbone.history.start()
 	
 
 

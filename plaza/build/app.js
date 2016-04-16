@@ -15,9 +15,7 @@
       this.user = new Plaza.Models.User();
       this.admin_view = new Plaza.Views.Admin();
       this.router = new Plaza.Routers.Router();
-      return Backbone.history.start({
-        pushState: true
-      });
+      return Backbone.history.start();
     }
   };
 
