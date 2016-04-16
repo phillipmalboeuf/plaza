@@ -10,6 +10,8 @@ label,
 
 	font-family: $alternate_font;
 	font-weight: normal;
+	text-transform: none;
+	letter-spacing: 0;
 	margin-bottom: $vertical_rythm/2;
 
 	input[type="checkbox"] + &,
@@ -41,6 +43,8 @@ textarea,
 	font-family: $alternate_font;
 	font-size: $medium_size;
 	font-weight: bold;
+	text-transform: none;
+	letter-spacing: 0;
 
 	background: $white;
 	padding: $vertical_rythm/2;

@@ -6,47 +6,5 @@
 
 }
 
-	.header__logo {
-		max-width: $base_size*12;
-
-		@media #{$small} {
-			max-width: $base_size*2;
-		}
-	}
-
-	.header__nav {
-
-	}
-
-		.header__nav__link {
-			display: inline-block;
-			vertical-align: top;
-			font-family: $alternate_font;
-
-			@media #{$small} {
-				font-size: $base_size/1.25;
-			}
-
-			&:after {
-				content: "";
-				display: block;
-				border-bottom: 1px solid;
-				width: 0;
-
-				@include transition(width $fast);
-
-				@media #{$small} {
-					display: none;	
-				}
-			}
-
-			&:hover,
-			&:focus {
-
-				&:after {
-					width: 100%;
-				}
-			}
-		}
 
 

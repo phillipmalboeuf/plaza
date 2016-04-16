@@ -42,6 +42,21 @@
 
         <div class="main" role="main">
             {% block main %}{% endblock %}
+
+            {% block navigation %}
+            <nav class="navigation js-piece" data-id="{{pieces.navigation._id}}">
+                <a href="{{pieces.navigation.atelier_link}}" data-link-key="atelier_link" class="navigation__link"><img src="/build/images/atelier.png" alt=""></a>
+                <a href="{{pieces.navigation.bureau_link}}" data-link-key="bureau_link" class="navigation__link"><img src="/build/images/bureau.png" alt=""></a>
+                <a href="{{pieces.navigation.salle_link}}" data-link-key="salle_link" class="navigation__link"><img src="/build/images/salle.png" alt=""></a>
+                <a href="{{pieces.navigation.cuisine_link}}" data-link-key="cuisine_link" class="navigation__link"><img src="/build/images/cuisine.png" alt=""></a>
+                <a href="{{pieces.navigation.serre_link}}" data-link-key="serre_link" class="navigation__link"><img src="/build/images/serre.png" alt=""></a>
+                <a href="{{pieces.navigation.equipe_link}}" data-link-key="equipe_link" class="navigation__link"><img src="/build/images/equipe.png" alt=""></a>
+                <a href="{{pieces.navigation.evenements_link}}" data-link-key="evenements_link" class="navigation__link"><img src="/build/images/evenements.png" alt=""></a>
+                <a href="{{pieces.navigation.photos_link}}" data-link-key="photos_link" class="navigation__link"><img src="/build/images/photos.png" alt=""></a>
+
+                <span data-piece-admin></span>
+            </nav>
+            {% endblock %}
         </div>
 
 

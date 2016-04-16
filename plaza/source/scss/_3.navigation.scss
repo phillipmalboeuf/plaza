@@ -1,0 +1,57 @@
+
+
+// #NAVIGATION
+
+.navigation {
+	@extend .grid;
+	@extend .grid--center;
+
+	padding: $gutter*2;
+}
+
+	.navigation__link {
+
+		@include transformer;
+
+		&:hover,
+		&:focus {
+			@include transform(rotate(5deg));
+		}
+
+
+		margin: -40px;
+
+		&:nth-child(1) {
+			margin-top: 0;
+		}
+
+		&:nth-child(2) {
+			
+		}
+
+		&:nth-child(3) {
+			margin-right: 0;
+		}
+
+		&:nth-child(4) {
+			margin-left: 100px;
+		}
+
+		&:nth-child(5) {
+			margin-top: -50px;
+			margin-left: -30px;
+			margin-right: -30px;
+		}
+
+		&:nth-child(6) {
+			margin-right: 0;
+		}
+
+		&:nth-child(8) {
+			margin-left: 0;
+			margin-right: -100px;
+		}
+	}
+
+
+

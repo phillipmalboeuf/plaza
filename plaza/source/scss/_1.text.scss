@@ -242,6 +242,9 @@ iframe {
 small,
 .small {
 	font-size: 0.75em;
+	font-family: $alternate_font;
+	text-transform: none;
+	letter-spacing: 0;
 }
 
 b,
