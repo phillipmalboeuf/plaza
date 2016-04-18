@@ -21,9 +21,12 @@ body {
 	overflow-y: auto;
 
 	background-color: $grey;
-	background-image: url("/build/images/_back.jpg");
-	background-position: top center;
-	background-attachment: fixed;
+
+	@media #{$medium} {
+		background-image: url("/build/images/_back.jpg");
+		background-position: top center;
+		background-attachment: fixed;
+	}
 }
 
 

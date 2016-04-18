@@ -14,14 +14,21 @@ class Plaza.Views.Parallax extends Backbone.View
 
 	render: ->
 
-		@layers = this.$el.find(".js-layer")
-		translate3d = ""
+		layers = this.$el.find(".js-layer")
 
-		$(window).scroll (e)=>
-			for layer in @layers
+		translate = ->
+			for layer in layers
 				layer.style.transform = "translate3d(0, "+(window.pageYOffset * -layer.getAttribute("data-depth"))+"px, 0)"
+
+
+		$(window).scroll ->
+			window.requestAnimationFrame(translate)
 			
-
-
-
+			
 		this
+
+
+	
+
+
+

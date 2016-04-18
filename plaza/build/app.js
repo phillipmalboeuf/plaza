@@ -901,21 +901,20 @@
     };
 
     Parallax.prototype.render = function() {
-      var translate3d;
-      this.layers = this.$el.find(".js-layer");
-      translate3d = "";
-      $(window).scroll((function(_this) {
-        return function(e) {
-          var i, layer, len, ref, results;
-          ref = _this.layers;
-          results = [];
-          for (i = 0, len = ref.length; i < len; i++) {
-            layer = ref[i];
-            results.push(layer.style.transform = "translate3d(0, " + (window.pageYOffset * -layer.getAttribute("data-depth")) + "px, 0)");
-          }
-          return results;
-        };
-      })(this));
+      var layers, translate;
+      layers = this.$el.find(".js-layer");
+      translate = function() {
+        var i, layer, len, results;
+        results = [];
+        for (i = 0, len = layers.length; i < len; i++) {
+          layer = layers[i];
+          results.push(layer.style.transform = "translate3d(0, " + (window.pageYOffset * -layer.getAttribute("data-depth")) + "px, 0)");
+        }
+        return results;
+      };
+      $(window).scroll(function() {
+        return window.requestAnimationFrame(translate);
+      });
       return this;
     };
 
