@@ -1,0 +1,47 @@
+
+
+// #DEV
+
+.dev {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 3;
+
+	overflow: hidden;
+
+	@include transformer($slow);
+	@include translate(0, 100%);
+
+	&.dev--show {
+		@include translate(0, 0);
+	}
+	
+
+	.parallax {
+		top: auto;
+		bottom: 0;
+
+		@media #{$medium} {
+			position: fixed;
+		}
+	}
+
+		.parallax__layer {
+
+			@media #{$medium} {
+				&:nth-child(1) {
+					display: block;
+				}
+			}
+
+			@media #{$small} {
+				display: block;
+			}
+		}
+}
+
+
+

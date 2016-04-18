@@ -21,6 +21,22 @@ window.Plaza =
 		
 		@admin_view = new Plaza.Views.Admin()
 
+		@views = []
+
+		$(".js-piece").each (index, element)=>
+			model = new Plaza.Models.Piece({"_id": element.getAttribute("data-id")})
+			@views.push new Plaza.Views.Piece({
+				el: element
+				model: model
+			})
+
+
+		$(".js-parallax").each (index, element)=>
+			@views.push new Plaza.Views.Parallax({
+				el: element
+			})
+
+
 		@router = new Plaza.Routers.Router()
 		Backbone.history.start()
 	

@@ -3,7 +3,9 @@ class Plaza.Routers.Router extends Backbone.Router
 
 
 	routes: {
-		"lists/:list_route(/tags)(/authors)(/posts)(/:route)(/)": "list"
+		# "lists/:list_route(/tags)(/authors)(/posts)(/:route)(/)": "list"
+		"dev": "dev"
+		"index": "index"
 		"(:lang)(/)(:path)(/)": "path"
 	}
 
@@ -25,18 +27,14 @@ class Plaza.Routers.Router extends Backbone.Router
 		callback.apply(this, args) if callback?
 
 
-		$(".js-piece").each (index, element)=>
-			model = new Plaza.Models.Piece({"_id": element.getAttribute("data-id")})
-			@views.push new Plaza.Views.Piece({
-				el: element
-				model: model
-			})
 
 
-		$(".js-parallax").each (index, element)=>
-			@views.push new Plaza.Views.Parallax({
-				el: element
-			})
+	index: ->
+		$("#dev").removeClass "dev--show"
+
+
+	dev: ->
+		$("#dev").addClass "dev--show"
 
 
 

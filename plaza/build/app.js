@@ -14,6 +14,26 @@
       this.session = new Plaza.Models.Session();
       this.user = new Plaza.Models.User();
       this.admin_view = new Plaza.Views.Admin();
+      this.views = [];
+      $(".js-piece").each((function(_this) {
+        return function(index, element) {
+          var model;
+          model = new Plaza.Models.Piece({
+            "_id": element.getAttribute("data-id")
+          });
+          return _this.views.push(new Plaza.Views.Piece({
+            el: element,
+            model: model
+          }));
+        };
+      })(this));
+      $(".js-parallax").each((function(_this) {
+        return function(index, element) {
+          return _this.views.push(new Plaza.Views.Parallax({
+            el: element
+          }));
+        };
+      })(this));
       this.router = new Plaza.Routers.Router();
       return Backbone.history.start();
     }
@@ -1264,7 +1284,8 @@
     }
 
     Router.prototype.routes = {
-      "lists/:list_route(/tags)(/authors)(/posts)(/:route)(/)": "list",
+      "dev": "dev",
+      "index": "index",
       "(:lang)(/)(:path)(/)": "path"
     };
 
@@ -1282,27 +1303,16 @@
       delete this.views;
       this.views = [];
       if (callback != null) {
-        callback.apply(this, args);
+        return callback.apply(this, args);
       }
-      $(".js-piece").each((function(_this) {
-        return function(index, element) {
-          var model;
-          model = new Plaza.Models.Piece({
-            "_id": element.getAttribute("data-id")
-          });
-          return _this.views.push(new Plaza.Views.Piece({
-            el: element,
-            model: model
-          }));
-        };
-      })(this));
-      return $(".js-parallax").each((function(_this) {
-        return function(index, element) {
-          return _this.views.push(new Plaza.Views.Parallax({
-            el: element
-          }));
-        };
-      })(this));
+    };
+
+    Router.prototype.index = function() {
+      return $("#dev").removeClass("dev--show");
+    };
+
+    Router.prototype.dev = function() {
+      return $("#dev").addClass("dev--show");
     };
 
     Router.prototype.path = function() {};
