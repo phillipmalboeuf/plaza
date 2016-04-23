@@ -62,11 +62,9 @@
 
         
         <div class="dev" id="dev">
-            <a href="#index">
-                <div class="parallax js-parallax">
-                    <img src="https://res.cloudinary.com/deming/image/upload/_dev_back.png" class="parallax__layer js-layer" data-depth=0.15>
-                    <img src="https://res.cloudinary.com/deming/image/upload/_dev_front.png" class="parallax__layer js-layer" data-depth=0.30>
-                </div>
+            <a href="#index" class="parallax js-parallax">
+                <img src="https://res.cloudinary.com/deming/image/upload/_dev_back.png" class="parallax__layer js-layer" data-depth=0.15>
+                <img src="https://res.cloudinary.com/deming/image/upload/_dev_front.png" class="parallax__layer js-layer" data-depth=0.30>
             </a>
         </div>
 
@@ -96,7 +94,8 @@
             var pieces = {{pieces_json|safe}};
             var plaza_settings = {
                 api: window.location.origin+"/"{% if lang %},
-                lang: "{{lang}}"{% endif %}
+                lang: "{{lang}}"{% endif %},
+                lang_route: "{{lang_route}}"
             }
         </script>
         <script src="/build/templates.js"></script>

@@ -28,7 +28,7 @@ class Plaza.Models.Session extends Plaza.Model
 		Plaza.cookies.delete "Session-Secret"
 		Plaza.cookies.delete "User-Id"
 		
-		window.location = window.location
+		window.location = window.plaza_settings.lang_route
 
 
 	is_authenticated: ->

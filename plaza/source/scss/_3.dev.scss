@@ -10,12 +10,14 @@
 	height: 100%;
 	z-index: 3;
 
-	overflow: hidden;
+	pointer-events: none;
 
 	@include transformer($slow);
 	@include translate(0, 100%);
 
 	&.dev--show {
+		pointer-events: auto;
+
 		@include translate(0, 0);
 	}
 	
