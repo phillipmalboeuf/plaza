@@ -640,7 +640,7 @@
       Plaza.user.clear();
       Plaza.cookies["delete"]("Session-Secret");
       Plaza.cookies["delete"]("User-Id");
-      return window.location = window.plaza_settings.lang_route;
+      return window.location = window.location.pathname;
     };
 
     Session.prototype.is_authenticated = function() {
