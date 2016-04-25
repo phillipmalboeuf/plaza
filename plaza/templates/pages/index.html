@@ -5,6 +5,10 @@
 
 
 {% block main %}
+<header class="hide_on_small">
+	<img src="/build/images/_soirs.png" class="header__right">
+</header>
+
 <div class="text_center js-piece" data-id="{{pieces.index._id}}">
 	<p>
 		<a href="{{pieces.index.address_link}}" target="_blank" data-link-key="address_link"><span data-key="address">{{pieces.index.address}}</span></a><br>

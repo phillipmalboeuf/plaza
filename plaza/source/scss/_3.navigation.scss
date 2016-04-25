@@ -6,7 +6,9 @@
 	@extend .grid;
 	@extend .grid--center;
 
-	padding: $gutter*2;
+	&:first-child {
+		padding-top: $gutter*2;
+	}
 
 	[contenteditable] {
 		position: relative;
@@ -24,37 +26,33 @@
 		}
 
 
-		margin: -40px;
+		margin: -35px;
 
-		&:nth-child(1) {
-			margin-top: 0;
+		&[data-link-key="atelier_link"] {
+			margin-top: -60px;
 		}
 
-		&:nth-child(2) {
-			
+		&[data-link-key="bureau_link"] {
+			margin-bottom: -20px;
 		}
 
-		&:nth-child(3) {
-			margin-right: 0;
+		&[data-link-key="salle_link"] {
+			margin-left: -50px;
+			margin-top: -45px;
 		}
 
-		&:nth-child(4) {
-			margin-left: 100px;
+		&[data-link-key="boutique_link"] {
+			margin-top: -90px;
 		}
 
-		&:nth-child(5) {
-			margin-top: -50px;
-			margin-left: -30px;
-			margin-right: -30px;
+		&[data-link-key="evenements_link"] {
+			margin-top: -40px;
+			margin-right: 40px;
 		}
 
-		&:nth-child(6) {
-			margin-right: 0;
-		}
-
-		&:nth-child(8) {
-			margin-left: 0;
-			margin-right: -100px;
+		&[data-link-key="photos_link"] {
+			margin-top: -60px;
+			margin-right: -150px;
 		}
 
 		@media #{$small} {

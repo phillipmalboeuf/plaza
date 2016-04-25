@@ -11,6 +11,7 @@
 	z-index: 3;
 
 	pointer-events: none;
+	overflow: hidden;
 
 	@include transformer($slow);
 	@include translate(0, 100%);
