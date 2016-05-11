@@ -60,12 +60,17 @@ class Plaza.Views.Piece extends Plaza.View
 				@model.attributes.content[key.getAttribute("data-key")].translations = {} unless @model.attributes.content[key.getAttribute("data-key")].translations?
 				@model.attributes.content[key.getAttribute("data-key")].translations[Plaza.settings.lang] = key.innerHTML
 
+			this.$el.find("[data-image-key]").each (index, key)=>
+				@model.attributes.content[key.getAttribute("data-image-key")].translations = {} unless @model.attributes.content[key.getAttribute("data-image-key")].translations?
+				@model.attributes.content[key.getAttribute("data-image-key")].translations[Plaza.settings.lang] = key.getAttribute("src")
+
+
 		else
 			this.$el.find("[data-key]").each (index, key)=>
 				@model.attributes.content[key.getAttribute("data-key")].value = key.innerHTML
 
-		this.$el.find("[data-image-key]").each (index, key)=>
-			@model.attributes.content[key.getAttribute("data-image-key")].value = key.getAttribute("src")
+			this.$el.find("[data-image-key]").each (index, key)=>
+				@model.attributes.content[key.getAttribute("data-image-key")].value = key.getAttribute("src")
 
 
 		@model.save()

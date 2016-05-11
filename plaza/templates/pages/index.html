@@ -5,8 +5,10 @@
 
 
 {% block main %}
-<header class="hide_on_small">
-	<img src="/build/images/_soirs.png" class="header__right">
+<header class="header header--right text_center hide_on_small js-piece" data-id="{{pieces.index._id}}">
+	<a href="{{pieces.index.other_lang_link}}" data-link-key="other_lang_link"><span data-key="other_lang">{{pieces.index.other_lang}}</span></a><br>
+	<img src="{{pieces.index.sign}}" data-image-key="sign">
+	<span data-piece-admin></span>
 </header>
 
 <div class="text_center js-piece" data-id="{{pieces.index._id}}">
@@ -23,7 +25,7 @@
 	</p>
 
 	<p>
-		<img src="https://res.cloudinary.com/deming/image/upload/_logo.png" alt="Logo" class="img--center" data-image-key="logo">
+		<img src="{{pieces.index.logo}}" alt="Logo" class="img--center" data-image-key="logo">
 	</p>
 
 	<p>

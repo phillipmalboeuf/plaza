@@ -12,9 +12,11 @@
 	height: 100%;
 
 	@media #{$medium} {
-		position: absolute;
-		top: auto;
-		bottom: 0;
+		
+
+		// position: absolute;
+		// top: auto;
+		// bottom: 0;
 	}
 }
 
@@ -28,18 +30,17 @@
 
 		@media #{$medium} {
 			
-			&:nth-child(1) {
-				display: none;
+			// &:nth-child(1) {
+			// 	display: none;
+			// }
+
+			&:nth-child(n+2) {
+				padding-top: 40vh;
 			}
 
-			&:nth-child(n+1) {
-				top: auto;
-				bottom: 0;
-			}
-
-			-ms-transform: none !important;
-			-webkit-transform: none !important;
-			transform: none !important;
+			// -ms-transform: none !important;
+			// -webkit-transform: none !important;
+			// transform: none !important;
 		}
 
 		@media #{$small} {

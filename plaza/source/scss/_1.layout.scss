@@ -20,9 +20,15 @@ body {
 	overflow-x: hidden;
 	overflow-y: auto;
 
+	margin: 0 auto;
+
 	background-color: $grey;
 
 	@media #{$medium} {
+		min-height: 170vw;
+	}
+
+	@media #{$small} {
 		background-image: url("/build/images/_back.jpg");
 		background-position: top center;
 		background-attachment: fixed;
@@ -89,19 +95,11 @@ footer {
 .padded {
 	padding: $gutter;
 
-	@media #{$small} {
-		padding: $gutter/2;
-	}
-
 	&.padded--thick {
 		padding: $gutter*2;
 
 		@media #{$medium} {
-			padding: $gutter*1.5;
-		}
-
-		@media #{$small} {
-			padding: $gutter/2;
+			padding: $gutter;
 		}
 	}
 }

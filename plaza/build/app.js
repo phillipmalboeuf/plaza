@@ -988,18 +988,26 @@
             return _this.model.attributes.content[key.getAttribute("data-key")].translations[Plaza.settings.lang] = key.innerHTML;
           };
         })(this));
+        this.$el.find("[data-image-key]").each((function(_this) {
+          return function(index, key) {
+            if (_this.model.attributes.content[key.getAttribute("data-image-key")].translations == null) {
+              _this.model.attributes.content[key.getAttribute("data-image-key")].translations = {};
+            }
+            return _this.model.attributes.content[key.getAttribute("data-image-key")].translations[Plaza.settings.lang] = key.getAttribute("src");
+          };
+        })(this));
       } else {
         this.$el.find("[data-key]").each((function(_this) {
           return function(index, key) {
             return _this.model.attributes.content[key.getAttribute("data-key")].value = key.innerHTML;
           };
         })(this));
+        this.$el.find("[data-image-key]").each((function(_this) {
+          return function(index, key) {
+            return _this.model.attributes.content[key.getAttribute("data-image-key")].value = key.getAttribute("src");
+          };
+        })(this));
       }
-      this.$el.find("[data-image-key]").each((function(_this) {
-        return function(index, key) {
-          return _this.model.attributes.content[key.getAttribute("data-image-key")].value = key.getAttribute("src");
-        };
-      })(this));
       return this.model.save();
     };
 

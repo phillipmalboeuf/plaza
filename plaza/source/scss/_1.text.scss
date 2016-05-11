@@ -8,6 +8,14 @@ body {
 	color: $primary;
 	text-transform: uppercase;
 	letter-spacing: $letter_spacing;
+
+	@media #{$medium} {
+		font-size: 90%;
+	}
+
+	@media #{$small} {
+		font-size: 70%;
+	}
 }
 
 ::-moz-selection {
@@ -75,15 +83,6 @@ h1, h2, h3, h4, h5, h6 {
 p,
 .p {
 	margin: 0 0 $vertical_rythm;
-
-	&.p--huge {
-		font-size: $huge_size;
-		@extend .medium_bottom;
-
-		@media #{$small} {
-			font-size: $huge_size*0.75;
-		}
-	}
 
 	&.p--medium,
 	.medium & {

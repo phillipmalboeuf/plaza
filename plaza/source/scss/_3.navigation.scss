@@ -14,6 +14,12 @@
 		position: relative;
 		z-index: 3;
 	}
+
+	@media #{$medium} {
+		&:first-child {
+			padding-top: $gutter;
+		}
+	}
 }
 
 	.navigation__link {
@@ -27,6 +33,10 @@
 
 
 		margin: -35px;
+
+		@media #{$medium} {
+			margin: -40px;
+		}
 
 		&[data-link-key="atelier_link"] {
 			margin-top: -60px;
@@ -54,6 +64,8 @@
 			margin-top: -60px;
 			margin-right: -150px;
 		}
+
+		
 
 		@media #{$small} {
 			margin: -30px !important;

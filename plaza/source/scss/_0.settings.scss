@@ -29,13 +29,14 @@ $base_size: 24px;
 $huge_size: 48px;
 $big_size: 28px;
 $medium_size: 20px;
-$line_height: 28px;
-$vertical_rythm: 14px;
+$line_height: 1.2;
+$vertical_rythm: 0.5em;
 $letter_spacing: 0.25em;
 $border_radius: 0;
 
 $number_of_columns: 12;
 $gutter: 1rem;
+$max_width: 1400px;
 
 
 // #ANIMATIONS
@@ -47,7 +48,7 @@ $very_slow: 1.666s;
 
 // #BREAKPOINTS
 
-$small: "all and (max-device-width:800px), all and (max-width:800px)";
-$medium: "all and (max-device-width:1020px), all and (max-width:1020px)";
+$small: "all and (max-device-width:750px), all and (max-width:750px)";
+$medium: "all and (max-device-width:1050px), all and (max-width:1050px)";
 $breakpoints: "medium" $medium, "small" $small;
 

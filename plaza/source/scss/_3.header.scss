@@ -4,13 +4,27 @@
 
 .header {
 
+	&.header--right {
+		position: absolute;
+		top: $gutter*2;
+		right: $gutter*2;
+
+		img {
+			max-width: 6rem;
+
+			@media #{$medium} {
+				max-width: 5rem;
+			}
+		}
+
+		@media #{$medium} {
+			top: $gutter;
+			right: $gutter;
+		}
+	}
 }
 
-	.header__right {
-		position: absolute;
-		top: $gutter*4;
-		right: $gutter*2;
-	}
+	
 
 
 
