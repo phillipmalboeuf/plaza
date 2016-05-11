@@ -38,8 +38,17 @@
 			margin: -40px;
 		}
 
+		@media #{$small} {
+			max-width: 25vw;
+			margin: -12px;
+		}
+
 		&[data-link-key="atelier_link"] {
 			margin-top: -60px;
+
+			@media #{$small} {
+				margin-top: -25px;
+			}
 		}
 
 		&[data-link-key="bureau_link"] {
@@ -49,26 +58,39 @@
 		&[data-link-key="salle_link"] {
 			margin-left: -50px;
 			margin-top: -45px;
+
+			@media #{$small} {
+				margin-left: -15px;
+				margin-top: -15px;
+			}
 		}
 
 		&[data-link-key="boutique_link"] {
 			margin-top: -90px;
+
+			@media #{$small} {
+				margin-top: -30px;
+			}
 		}
 
 		&[data-link-key="evenements_link"] {
 			margin-top: -40px;
 			margin-right: 40px;
+
+			@media #{$small} {
+				margin-top: -15px;
+				margin-right: 25px;
+			}
 		}
 
 		&[data-link-key="photos_link"] {
 			margin-top: -60px;
 			margin-right: -150px;
-		}
 
-		
-
-		@media #{$small} {
-			margin: -30px !important;
+			@media #{$small} {
+				margin-top: -40px;
+				margin-right: -90px;
+			}
 		}
 	}
 

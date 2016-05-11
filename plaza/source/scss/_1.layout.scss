@@ -29,9 +29,12 @@ body {
 	}
 
 	@media #{$small} {
+		min-height: 195vw;
+
 		background-image: url("/build/images/_back.jpg");
 		background-position: top center;
 		background-attachment: fixed;
+		background-size: cover;
 	}
 }
 

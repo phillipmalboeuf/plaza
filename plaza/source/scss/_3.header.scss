@@ -11,15 +11,24 @@
 
 		img {
 			max-width: 6rem;
+			margin: 0 auto;
 
 			@media #{$medium} {
 				max-width: 5rem;
+			}
+
+			@media #{$small} {
+				max-width: 2.5rem;
 			}
 		}
 
 		@media #{$medium} {
 			top: $gutter;
 			right: $gutter;
+		}
+
+		@media #{$small} {
+			right: 0;
 		}
 	}
 }

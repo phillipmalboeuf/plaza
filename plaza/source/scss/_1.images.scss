@@ -6,6 +6,10 @@ img {
 
 	&.img--center {
 		margin: 0 auto;
+
+		@media #{$small} {
+			width: 50%;
+		}
 	}
 
 	&.img--full {
