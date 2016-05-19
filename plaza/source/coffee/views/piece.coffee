@@ -4,14 +4,17 @@ class Plaza.Views.Piece extends Plaza.View
 
 	piece_admin_template: templates["admin/piece_admin"]
 	piece_link_template: templates["admin/piece_link"]
+	piece_file_link_template: templates["admin/piece_file_link"]
 
 
 	events: {
 		"click .js-save_piece": "save_piece"
 		"input [data-key]": "key_input"
 		"click [data-key]": "prevent_click"
-		"click [data-image-key]": "trigger_upload"
+		"click [data-image-key]": "trigger_image_upload"
+		"click [data-file-key]": "trigger_file_upload"
 		"change .js-image_input": "upload_image"
+		"change .js-file_input": "upload_file"
 	}
 
 
@@ -40,6 +43,14 @@ class Plaza.Views.Piece extends Plaza.View
 
 				link.removeAttribute("data-link-key")
 
+			this.$el.find("[data-file-link-key]").each (index, link)=>
+				$(link).before this.piece_file_link_template({
+					key: link.getAttribute("data-file-link-key")
+					url: link.getAttribute("href")
+				})
+
+				link.removeAttribute("data-file-link-key")
+
 			this.$el.find("[data-image-key]").each (index, image)=>
 				$(image).addClass "img--clickable"
 				
@@ -64,6 +75,10 @@ class Plaza.Views.Piece extends Plaza.View
 				@model.attributes.content[key.getAttribute("data-image-key")].translations = {} unless @model.attributes.content[key.getAttribute("data-image-key")].translations?
 				@model.attributes.content[key.getAttribute("data-image-key")].translations[Plaza.settings.lang] = key.getAttribute("src")
 
+			this.$el.find("[data-file-key]").each (index, key)=>
+				@model.attributes.content[key.getAttribute("data-file-key")].translations = {} unless @model.attributes.content[key.getAttribute("data-file-key")].translations?
+				@model.attributes.content[key.getAttribute("data-file-key")].translations[Plaza.settings.lang] = key.innerText
+
 
 		else
 			this.$el.find("[data-key]").each (index, key)=>
@@ -71,6 +86,9 @@ class Plaza.Views.Piece extends Plaza.View
 
 			this.$el.find("[data-image-key]").each (index, key)=>
 				@model.attributes.content[key.getAttribute("data-image-key")].value = key.getAttribute("src")
+
+			this.$el.find("[data-file-key]").each (index, key)=>
+				@model.attributes.content[key.getAttribute("data-file-key")].value = key.innerText
 
 
 		@model.save()
@@ -81,7 +99,7 @@ class Plaza.Views.Piece extends Plaza.View
 			@button.removeAttribute "disabled"
 
 
-	trigger_upload: (e)->
+	trigger_image_upload: (e)->
 		input = this.$el.find(".js-image_input")
 		@image_key = e.currentTarget.getAttribute("data-image-key")
 		input.click()
@@ -96,6 +114,23 @@ class Plaza.Views.Piece extends Plaza.View
 					
 					this.$el.find("[data-image-key='"+@image_key+"']").attr "src", Plaza.settings.cdn+response.url
 					this.key_input()
+
+
+	trigger_file_upload: (e)->
+		input = this.$el.find(".js-file_input")
+		@file_key = e.currentTarget.getAttribute("data-file-key")
+		input.click()
+
+
+	upload_file: (e)->
+
+		file = e.currentTarget.files[0]
+		Plaza.helpers.upload file,
+			success: (response)=>
+				
+				file_key = this.$el.find("[data-file-key='"+@file_key+"']")
+				file_key.text Plaza.settings.cdn+response.url
+				this.key_input()
 
 
 

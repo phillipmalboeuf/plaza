@@ -939,12 +939,16 @@
 
     Piece.prototype.piece_link_template = templates["admin/piece_link"];
 
+    Piece.prototype.piece_file_link_template = templates["admin/piece_file_link"];
+
     Piece.prototype.events = {
       "click .js-save_piece": "save_piece",
       "input [data-key]": "key_input",
       "click [data-key]": "prevent_click",
-      "click [data-image-key]": "trigger_upload",
-      "change .js-image_input": "upload_image"
+      "click [data-image-key]": "trigger_image_upload",
+      "click [data-file-key]": "trigger_file_upload",
+      "change .js-image_input": "upload_image",
+      "change .js-file_input": "upload_file"
     };
 
     Piece.prototype.initialize = function() {
@@ -964,6 +968,15 @@
               link: link.getAttribute("href")
             }));
             return link.removeAttribute("data-link-key");
+          };
+        })(this));
+        this.$el.find("[data-file-link-key]").each((function(_this) {
+          return function(index, link) {
+            $(link).before(_this.piece_file_link_template({
+              key: link.getAttribute("data-file-link-key"),
+              url: link.getAttribute("href")
+            }));
+            return link.removeAttribute("data-file-link-key");
           };
         })(this));
         this.$el.find("[data-image-key]").each((function(_this) {
@@ -996,6 +1009,14 @@
             return _this.model.attributes.content[key.getAttribute("data-image-key")].translations[Plaza.settings.lang] = key.getAttribute("src");
           };
         })(this));
+        this.$el.find("[data-file-key]").each((function(_this) {
+          return function(index, key) {
+            if (_this.model.attributes.content[key.getAttribute("data-file-key")].translations == null) {
+              _this.model.attributes.content[key.getAttribute("data-file-key")].translations = {};
+            }
+            return _this.model.attributes.content[key.getAttribute("data-file-key")].translations[Plaza.settings.lang] = key.innerText;
+          };
+        })(this));
       } else {
         this.$el.find("[data-key]").each((function(_this) {
           return function(index, key) {
@@ -1005,6 +1026,11 @@
         this.$el.find("[data-image-key]").each((function(_this) {
           return function(index, key) {
             return _this.model.attributes.content[key.getAttribute("data-image-key")].value = key.getAttribute("src");
+          };
+        })(this));
+        this.$el.find("[data-file-key]").each((function(_this) {
+          return function(index, key) {
+            return _this.model.attributes.content[key.getAttribute("data-file-key")].value = key.innerText;
           };
         })(this));
       }
@@ -1017,7 +1043,7 @@
       }
     };
 
-    Piece.prototype.trigger_upload = function(e) {
+    Piece.prototype.trigger_image_upload = function(e) {
       var input;
       input = this.$el.find(".js-image_input");
       this.image_key = e.currentTarget.getAttribute("data-image-key");
@@ -1037,6 +1063,28 @@
           })(this)
         });
       }
+    };
+
+    Piece.prototype.trigger_file_upload = function(e) {
+      var input;
+      input = this.$el.find(".js-file_input");
+      this.file_key = e.currentTarget.getAttribute("data-file-key");
+      return input.click();
+    };
+
+    Piece.prototype.upload_file = function(e) {
+      var file;
+      file = e.currentTarget.files[0];
+      return Plaza.helpers.upload(file, {
+        success: (function(_this) {
+          return function(response) {
+            var file_key;
+            file_key = _this.$el.find("[data-file-key='" + _this.file_key + "']");
+            file_key.text(Plaza.settings.cdn + response.url);
+            return _this.key_input();
+          };
+        })(this)
+      });
     };
 
     Piece.prototype.prevent_click = function(e) {

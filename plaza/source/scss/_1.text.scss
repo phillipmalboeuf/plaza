@@ -232,6 +232,10 @@ sub {
 
 [contenteditable] {
 	background: fade-out($black, 0.95);
+
+	&.contenteditable--clickable {
+		cursor: pointer;
+	}
 }
 
 iframe {
