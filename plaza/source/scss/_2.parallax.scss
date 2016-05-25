@@ -6,10 +6,17 @@
 .parallax {
 	position: fixed;
 	top: 0;
-	left: 0;
+	left: calc(50% - #{$max_width}/2);
 
 	width: 100%;
+	max-width: $max_width;
 	height: 100%;
+
+	@include shadow(0 0 30px fade-out($black, 0.75));
+
+	@media #{$medium} {
+		left: 0;
+	}
 }
 
 	.parallax__layer {
@@ -19,18 +26,12 @@
 
 		width: 100%;
 		max-width: 100%;
+		
 
-		@media #{$medium} {
-
-			&:nth-child(n+2) {
-				padding-top: 40vh;
-			}
+		&:nth-child(n+2) {
+			padding-top: 30vh;
 		}
 
-		@media #{$small} {
 
-			&:nth-child(1) {
-				display: none;
-			}
-		}
+		
 	}

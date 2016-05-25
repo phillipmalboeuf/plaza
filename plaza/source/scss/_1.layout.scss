@@ -16,25 +16,18 @@ body {
 	position: relative;
 
 	width: 100%;
-	min-height: 125vw;
+	min-height: $max_width*1.6;
 	overflow-x: hidden;
 	overflow-y: auto;
 
-	margin: 0 auto;
-
 	background-color: $grey;
+	background-image: url("/build/images/_texture.jpg");
+	background-position: top center;
+	background-attachment: fixed;
+	background-size: cover;
 
 	@media #{$medium} {
-		min-height: 170vw;
-	}
-
-	@media #{$small} {
-		min-height: 190vw;
-
-		background-image: url("/build/images/_back.jpg");
-		background-position: top center;
-		background-attachment: fixed;
-		background-size: cover;
+		min-height: 160vw;
 	}
 }
 
@@ -56,7 +49,7 @@ body {
 	@extend .padded;
 	@extend .padded--thick;
 
-	max-width: 960px;
+	max-width: $max_width;
 	margin: 0 auto;
 }
 
