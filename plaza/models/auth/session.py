@@ -7,7 +7,9 @@ from plaza.models.core.has_routes import HasRoutes
 
 from plaza.models.auth.token import Token
 from plaza.models.auth.user import User
+
 from plaza.helpers.validation_rules import validation_rules
+from plaza.helpers.raise_error import raise_error
 
 from bson.objectid import ObjectId
 
@@ -21,7 +23,7 @@ with app.app_context():
 		collection_name = 'sessions'
 
 		schema = {
-			'token_id': validation_rules['text'],
+			'token_code': validation_rules['text'],
 			'email': validation_rules['email'],
 			'password': validation_rules['password']
 		}
@@ -59,19 +61,30 @@ with app.app_context():
 		@classmethod
 		def create(cls, document):
 
-			if 'token_id' in document:
+			if 'token_code' in document:
 				try:
-					document['token_id'] = Token.get_where({'_id': document['token_id']})['_id']
+					token = Token.get_where({'code': document['token_code']})
+					if datetime.now(timezone(app.config['TIMEZONE'])) > token['created_at'] + relativedelta(days=+1):
+						raise_error('auth', 'token_expired', 403)
 
-				except KeyError:
-					abort(403)
+					document['token_id'] = token['_id']
+					document['user_id'] = token['user_id']
+					request.user_id = document['user_id']
+					
+					try:
+						document['is_admin'] = token['is_admin']
+					except KeyError:
+						pass
+
+					del document['token_code']
 
 				except NotFound:
-					abort(400)
+					raise_error('auth', 'token_not_found', 404)
 
 
 			secret = uuid.uuid4().hex
-			document['secret_hash'] = hashlib.sha256(secret.encode('utf-8')).hexdigest()
+			document['secret_hash_salt'] = uuid.uuid4().hex
+			document['secret_hash'] = hashlib.sha256(secret.encode('utf-8') + document['secret_hash_salt'].encode('utf-8')).hexdigest()
 
 			document['_id'] = ObjectId()
 			document['session_id'] = document['_id']
@@ -89,25 +102,20 @@ with app.app_context():
 
 			
 
-
-
 		@classmethod
 		def preprocess(cls, document):
 
 			try:
 				if 'password' in document and document['password'] is not None:
-					user = User.get_where({
-						'email': document['email'],
-						'password': hashlib.sha256(document['password'].encode('utf-8')).hexdigest()
+					user = app.mongo.db[User.collection_name].find_one_or_404({
+						'email': document['email']
 					})
+
+					if user['password'] != hashlib.sha256(document['password'].encode('utf-8') + user['password_salt'].encode('utf-8')).hexdigest():
+						raise_error('auth', 'password_incorrect', 403)
 
 					document['user_id'] = user['_id']
 					request.user_id = document['user_id']
-
-					try:
-						document['is_vendor'] = user['is_vendor']
-					except KeyError:
-						pass
 
 					try:
 						document['is_admin'] = user['is_admin']
@@ -133,20 +141,15 @@ with app.app_context():
 
 		@classmethod
 		def postprocess(cls, document):
-
 			try:
 				del document['secret_hash']
-				
+				del document['secret_hash_salt']	
 			except KeyError:
 				pass
 
 
 			if 'is_admin' not in document:
 				document['is_admin'] = False
-
-			if 'is_vendor' not in document:
-				document['is_vendor'] = False
-
 
 			return document
 

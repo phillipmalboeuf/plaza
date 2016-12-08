@@ -14,6 +14,9 @@ import os
 from plaza.models.core.upload import Upload
 Upload.define_routes()
 
+from plaza.models.core.charge import Charge
+Charge.define_routes()
+
 
 from plaza.models.auth.token import Token
 from plaza.models.auth.session import Session

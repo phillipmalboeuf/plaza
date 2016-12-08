@@ -1,0 +1,65 @@
+
+
+{% for list in lists %}
+<div class="overlay parallax js-parallax" data-list="{{list.route}}" data-list-id="{{list._id}}">
+
+	<a href="#index" class="overlay__back"></a>
+
+	<div class="overlay__container padded padded--thick js-layer js-piece" data-id="{{pieces.lists._id}}" data-depth=0.15>
+		<h2 class="text_center"><span data-key="{{list.route}}_title">{{pieces.lists[list.route + '_title']|safe}}</span></h2>
+		<div class="medium_bottom"><span data-key="{{list.route}}_description">{{pieces.lists[list.route + '_description']|safe}}</span> <span data-piece-admin></span></div>
+
+		<div class="padded">
+			<div class="grid grid--guttered">
+				{% for post in list.posts %}
+				<div class="col col--3of12">
+					<a href="#{{list.route}}/{{post._id}}"><img src="{{post.thumbnail}}" alt="{{post.title}}"></a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% for post in list.posts %}
+<div class="overlay" data-post="{{post._id}}">
+
+	<a href="#{{list.route}}" class="overlay__back"></a>
+	
+	<div class="overlay__container overlay__container--transparent">
+		{% if post.is_photo == true %}
+		<img src="{{post.photo}}" class="img--center">
+		{% elif post.is_product == true %}
+		<div class="padded white_back">
+			<div class="grid grid--guttered">
+				<div class="col col--7of12 col--small--12of12">
+					<img src="{{post.product_photo}}" data-photo>
+				</div>
+				<div class="col col--5of12 col--small--12of12">
+					<h2 data-title>{{post.title}}</h2>
+					<p class="big_bottom" data-description>{{post.product_description}}</p>
+					<p class="big_bottom"><span data-price>{{post.product_price}}</span>$</p>
+
+					<button data-add-to-cart>Add to Cart</button>
+				</div>
+			</div>
+		</div>
+		{% elif post.is_video == true %}
+		<div class="video_container">
+			<iframe src="" data-video-id="{{post.video_embed_id}}" frameborder="0" allowfullscreen scrolling="no"></iframe>
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endfor %}
+
+<div class="overlay" data-success>
+
+	<a href="#{{list.route}}" class="overlay__back"></a>
+	
+	<div class="overlay__container overlay__container--transparent">
+		<a href="#{{list.route}}"><h1 class="text_center">Merci!</h1></a>
+	</div>
+</div>
+{% endfor %}

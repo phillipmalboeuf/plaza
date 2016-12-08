@@ -6,6 +6,8 @@ $video_ratio: 50%;
 	position: relative;
 	padding-top: $video_ratio;
 
+	background: $black;
+
 	iframe,
 	video {
 		position: absolute;

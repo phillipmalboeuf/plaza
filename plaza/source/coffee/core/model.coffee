@@ -52,6 +52,7 @@ class Plaza.Model extends Backbone.Model
 	set_secret_header: (options)->
 		options.headers = {} unless options.headers?
 		options.headers['Accept'] = 'application/json'
+		options.headers["X-Session-Id"] = Plaza.cookies.get("Session-Id")
 		options.headers['X-Session-Secret'] = Plaza.cookies.get("Session-Secret")
 
 		return options

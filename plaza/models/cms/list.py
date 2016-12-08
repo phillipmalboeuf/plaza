@@ -67,41 +67,8 @@ with app.app_context():
 				'view_function': 'delete_view',
 				'methods': ['DELETE'],
 				'requires_admin': True
-			},
-			{
-				'route': '/<string:_id>/tags/<string:tag>',
-				'view_function': 'tags_get_view',
-				'methods': ['GET']
-			},
-			{
-				'route': '/<string:_id>/authors/<string:handle>',
-				'view_function': 'authors_get_view',
-				'methods': ['GET']
 			}
 		]
-
-
-		templates = [
-			{
-				'view_function': 'get_view',
-				'template': 'lists/<route>.list.html',
-				'response_key': 'list',
-				'prerender_process': '_response_values'
-			},
-			{
-				'view_function': 'tags_get_view',
-				'template': 'lists/<route>.list.html',
-				'response_key': 'list',
-				'prerender_process': '_response_values'
-			},
-			{
-				'view_function': 'authors_get_view',
-				'template': 'lists/<route>.list.html',
-				'response_key': 'list',
-				'prerender_process': '_response_values'
-			}
-		]
-
 
 		@classmethod
 		def update(cls, _id, document, other_operators={}, projection={}):
@@ -137,10 +104,7 @@ with app.app_context():
 			try:
 				posts = []
 				for post in document['posts']:
-					if request.current_session_is_admin:
-						posts.append(post)
-
-					elif post['is_online']:
+					if post['is_online']:
 						posts.append(post)
 				document['posts'] = posts
 
@@ -171,113 +135,64 @@ with app.app_context():
 
 
 
-		@classmethod
-		def tags_get_view(cls, _id, tag):
-			document = cls.get(_id)
-
-			try:
-				posts = []
-				for post in document['posts']:
-					try:
-						if tag in post['tags']:
-							posts.append(post)
-					except KeyError:
-						pass
-
-				document['posts'] = posts
-
-			except KeyError:
-				pass
-
-
-			return cls._format_response(document)
-
-
-
-		@classmethod
-		def authors_get_view(cls, _id, handle):
-			document = cls.get(_id)
-			author = Author.get(handle)
-
-			try:
-				posts = []
-				for post in document['posts']:
-					try:
-						if author['_id'] in post['authors']:
-							posts.append(post)
-					except KeyError:
-						pass
-
-				document['posts'] = posts
-
-			except KeyError:
-				pass
-
-
-			return cls._format_response(document)
-
-
-
-
 
 		# HELPERS
 		@classmethod
-		def _response_values(cls, response):
-			
-			authors = Author.list()
-			response['authors'] = authors
+		def _values(cls, lang):
 
-			try:
-				posts = []
+			lists = cls.list()
+			for _list in lists:
+				try:
+					posts = []
 
-				for post in response['posts']:
-					try:
-						post_authors = []
+					for post in _list['posts']:
+						try:
+							post_authors = []
 
-						for post_author in post['authors']:
-							for author in authors:
-								if author['_id'] == post_author:
-									post_authors.append(author)
-									break
+							for post_author in post['authors']:
+								for author in authors:
+									if author['_id'] == post_author:
+										post_authors.append(author)
+										break
 
-						post['author_ids'] = post['authors']
-						post['authors'] = post_authors
+							post['author_ids'] = post['authors']
+							post['authors'] = post_authors
 
-					except KeyError:
-						pass
-
+						except KeyError:
+							pass
 
 
-				for post in response['posts']:
-					post_values = post.copy()
 
-					try:
-						for (key, value) in post_values['content'].items():
-							if 'is_markdown' in value and value['is_markdown']:
-								post_values[key] = markdown.markdown(value['value'])
-							else:
-								post_values[key] = value['value']
-						del post_values['content']
+					for post in _list['posts']:
+						post_values = post.copy()
 
-					except KeyError:
-						pass
+						try:
+							for (key, value) in post_values['content'].items():
+								if 'is_markdown' in value and value['is_markdown']:
+									post_values[key] = markdown.markdown(value['value'])
+								else:
+									post_values[key] = value['value']
+							del post_values['content']
 
-					posts.append(post_values)
+						except KeyError:
+							pass
+
+						posts.append(post_values)
 
 
-				def get_published_date(post):
-					return post['published_date']
+					def get_published_date(post):
+						return post['published_date']
 
-				response['posts'] = sorted(posts, key=get_published_date)
-				response['posts'].reverse()
+					_list['posts'] = sorted(posts, key=get_published_date)
+					_list['posts'].reverse()
+					
+
+
+				except KeyError:
+					pass
 				
 
-
-			except KeyError:
-				pass
-				
-
-			return response
+			return lists
 
 
 

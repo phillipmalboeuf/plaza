@@ -1,6 +1,7 @@
 
 from flask import request, abort, make_response
 from plaza import app
+from plaza.helpers.raise_error import raise_error
 
 from bson.objectid import ObjectId
 import hashlib
@@ -22,11 +23,6 @@ def verify_headers():
 			request.requires_admin = False
 
 		try:
-			request.requires_vendor = request.url_rule.route['requires_vendor']
-		except KeyError:
-			request.requires_vendor = False
-
-		try:
 			request.requires_user = request.url_rule.route['requires_user']
 		except KeyError:
 			request.requires_user = False
@@ -38,39 +34,48 @@ def verify_headers():
 
 
 		try:
-			request.current_session = Session.get_where({'secret_hash': hashlib.sha256(request.cookies['X-Session-Secret'].encode('utf-8')).hexdigest()})
+			request.current_session = app.mongo.db[Session.collection_name].find_one_or_404({'_id': ObjectId(request.cookies['X-Session-Id'])})
+			if request.current_session['secret_hash'] != hashlib.sha256(request.cookies['X-Session-Secret'].encode('utf-8') + request.current_session['secret_hash_salt'].encode('utf-8')).hexdigest():
+				raise_error('auth', 'invalid_secret', 403)
 		except KeyError:
 			pass
 
 
-		if request.requires_admin or request.requires_vendor or request.requires_user or request.requires_session:
+		if request.requires_admin or request.requires_user or request.requires_session:
 			try:
 				if hasattr(request, 'current_session'):
-					if request.headers['X-Session-Secret'] != request.cookies['X-Session-Secret']:
-						abort(403)
+					try:
+						if request.headers['X-Session-Secret'] != request.cookies['X-Session-Secret']:
+							raise_error('auth', 'cookies_dont_match', 403)
+					except KeyError:
+						pass
+
 				else:
-					request.current_session = Session.get_where({'secret_hash': hashlib.sha256(request.headers['X-Session-Secret'].encode('utf-8')).hexdigest()})
+					try:
+						request.current_session = app.mongo.db[Session.collection_name].find_one_or_404({'_id': request.cookies['X-Session-Id']})
+					except KeyError:
+						raise_error('auth', 'missing_session_id', 403)
+					
+					if request.current_session['secret_hash'] != hashlib.sha256(request.cookies['X-Session-Secret'].encode('utf-8') + request.current_session['secret_hash_salt'].encode('utf-8')).hexdigest():
+						raise_error('auth', 'invalid_secret', 403)
+						
 
 				if request.requires_admin and not request.current_session['is_admin']:
-					abort(403)
+					raise_error('auth', 'requires_admin', 403)
 
-				if request.requires_vendor and not request.current_session['is_admin'] and not request.current_session['is_vendor']:
-					abort(403)
 
 				if request.requires_user:
 					if not request.current_session['user_id']:
-						abort(403)
+						raise_error('auth', 'requires_user', 403)
 
 
 			except KeyError:
-				abort(403)
+				raise_error('auth', 'missing_secret', 403)
 
 
 		try: 
 			request.current_session_is_admin = request.current_session['is_admin']
-			request.current_session_is_vendor = request.current_session['is_vendor']
 		except AttributeError:
 			request.current_session_is_admin = False
-			request.current_session_is_vendor = False
 
 

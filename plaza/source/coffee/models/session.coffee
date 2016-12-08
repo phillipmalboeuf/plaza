@@ -5,6 +5,7 @@ class Plaza.Models.Session extends Plaza.Model
 
 	initialize: (options={})->
 		this.set 
+			_id: Plaza.cookies.get("Session-Id")
 			secret: Plaza.cookies.get("Session-Secret")
 			user_id: Plaza.cookies.get("User-Id")
 
@@ -13,6 +14,7 @@ class Plaza.Models.Session extends Plaza.Model
 	login: (data={}, options={})->
 		Plaza.session.save data,
 			success: (model, response)->
+				Plaza.cookies.set "Session-Id", response._id
 				Plaza.cookies.set "Session-Secret", response.secret
 				Plaza.cookies.set "User-Id", response.user_id
 
@@ -25,6 +27,7 @@ class Plaza.Models.Session extends Plaza.Model
 
 		Plaza.user.clear()
 
+		Plaza.cookies.delete "Session-Id"
 		Plaza.cookies.delete "Session-Secret"
 		Plaza.cookies.delete "User-Id"
 		

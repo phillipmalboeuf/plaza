@@ -3,10 +3,9 @@ class Plaza.Routers.Router extends Backbone.Router
 
 
 	routes: {
-		# "lists/:list_route(/tags)(/authors)(/posts)(/:route)(/)": "list"
 		"dev": "dev"
 		"index": "index"
-		"(:lang)(/)(:path)(/)": "path"
+		"(:path)(/)(:post)(/)": "path"
 	}
 
 	views: []
@@ -30,28 +29,35 @@ class Plaza.Routers.Router extends Backbone.Router
 
 
 	index: ->
-		$("#dev").removeClass "dev--show"
+		$("[data-list]").removeClass "overlay--show"
+		$("[data-post]").removeClass "overlay--show"
+		$("[data-success]").removeClass "overlay--show"
 
-
-	dev: ->
-		$("#dev").addClass "dev--show"
-
-
-
-	path: ->
-		
+		setTimeout ->
+			$("[data-video-id]").removeAttr "src"
+		, 666
 
 
 
+	path: (path, post)->
+		$("[data-list='"+path+"']").addClass "overlay--show"
+		$("[data-success]").removeClass "overlay--show"
 
-	list: (list_route, route)->
-		$(".js-post").each (index, element)=>
-			model = new Plaza.Models.ListPost()
-			model.urlRoot = Plaza.settings.api + "lists/"+window.list_id+"/posts"
-			@views.push new Plaza.Views.Post({
-				el: element, 
-				model: model
-			})
+		if post?
+			$("[data-post='"+post+"']").addClass "overlay--show"
+			
+			video = $("[data-post='"+post+"'] [data-video-id]")
+			setTimeout ->
+				if video.length > 0
+					video.attr "src", "https://www.youtube.com/embed/"+video.attr("data-video-id")
+			, 666
+
+		else
+			$("[data-post]").removeClass "overlay--show"
+
+			setTimeout ->
+				$("[data-video-id]").removeAttr "src"
+			, 666
 
 
 

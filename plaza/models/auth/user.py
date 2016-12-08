@@ -5,33 +5,29 @@ from flask import request, abort
 from plaza.helpers.json import to_json
 from plaza.models.core.model import Model
 from plaza.models.core.has_routes import HasRoutes
+from plaza.models.core.with_templates import WithTemplates
 
 from plaza.helpers.validation_rules import validation_rules
 
 from bson.objectid import ObjectId
 
-import stripe
-
 import string
 import random
 import hashlib
+import uuid
+import urllib
 
 
 
 with app.app_context():
-	class User(HasRoutes, Model):
+	class User(WithTemplates, HasRoutes, Model):
 
-		collection_name = 'users'
+		collection_name = 'users_2'
 		collection_sort = [('updated_at', -1), ('created_at', -1)]
 
 		schema = {
 			'email': validation_rules['email'],
 			'password': validation_rules['password'],
-			'first_name': validation_rules['text'],
-			'last_name': validation_rules['text'],
-			# 'referral_id': validation_rules['text'],
-			'notes': validation_rules['text'],
-			'is_vendor': validation_rules['bool'],
 			'is_admin': validation_rules['bool'],
 			'metadata': validation_rules['metadata']
 		}
@@ -43,15 +39,16 @@ with app.app_context():
 				'route': '',
 				'view_function': 'list_view',
 				'methods': ['GET'],
-				'requires_admin': True
+				'requires_user': True
 			},
 			{
 				'route': '',
 				'view_function': 'create_view',
-				'methods': ['POST']
+				'methods': ['POST'],
+				'requires_admin': True
 			},
 			{
-				'route': '/<ObjectId:_id>',
+				'route': '/<string:_id>',
 				'view_function': 'get_view',
 				'methods': ['GET'],
 				'requires_user': True
@@ -71,9 +68,10 @@ with app.app_context():
 		]
 
 
-
 		@classmethod
 		def create(cls, document):
+
+			document['is_online'] = False
 
 
 			# document['order_count'] = 0
@@ -85,18 +83,20 @@ with app.app_context():
 			# document['referral_order_count'] = 0
 			# document['referral_subscription_count'] = 0
 			# document['referral_subscription_order_count'] = 0
-			
 
+
+			document['store_credit'] = 0
 			document['_id'] = ObjectId()
 			document['user_id'] = document['_id']
 
 
-			stripe.api_key = app.config['STRIPE_API_KEY']
-			document['provider_data'] = stripe.Customer.create(
-				email=document['email'],
-				metadata={'_id': document['_id']}
-			)
+			if 'password' not in document:
+				document['password'] = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(9))
+				document['password'] = '-'.join([document['password'][:3], document['password'][3:6], document['password'][6:]])
+				has_generated_password = True
 
+			else:
+				has_generated_password = False
 
 
 			return super().create(document)
@@ -107,8 +107,10 @@ with app.app_context():
 		def update(cls, _id, document, other_operators={}, projection={}):
 
 
+			document = super().update(_id, document, other_operators, projection)
 
-			return super().update(_id, document, other_operators, projection)
+
+			return document
 
 
 
@@ -121,14 +123,17 @@ with app.app_context():
 					del document['is_admin']
 				except KeyError:
 					pass
-				try:
-					del document['is_vendor']
-				except KeyError:
-					pass
 			
 			try:
-				document['password'] = hashlib.sha256(document['password'].encode('utf-8')).hexdigest()
+				document['password_salt'] = uuid.uuid4().hex
+				document['password'] = hashlib.sha256(document['password'].encode('utf-8') + document['password_salt'].encode('utf-8')).hexdigest()
+			except KeyError:
+				del document['password_salt']
+				
+				pass
 
+			try:
+				document['route'] = urllib.parse.quote_plus(document['route'].lower())
 			except KeyError:
 				pass
 
@@ -136,24 +141,18 @@ with app.app_context():
 
 
 
+
+
 		@classmethod
 		def postprocess(cls, document):
-			
-
 
 			try:
 				del document['password']
-
+				del document['password_salt']
 			except KeyError:
 				pass
 
-
 			return document
-
-
-
-		
-	
 
 
 

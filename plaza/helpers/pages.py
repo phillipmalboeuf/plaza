@@ -2,6 +2,7 @@
 from plaza import app
 from plaza.helpers.json import to_json, json_formater
 from plaza.models.cms.piece import Piece
+from plaza.models.cms.list import List
 
 from flask import request, abort
 from flask import render_template, json
@@ -19,6 +20,7 @@ def page(lang=None):
 
 		response = {
 			'pieces': Piece._values(lang),
+			'lists': List._values(lang),
 			'debugging': app.config['DEBUG']
 		}
 		response['pieces_json'] = json.dumps(response['pieces'], sort_keys=False, default=json_formater)

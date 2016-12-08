@@ -46,33 +46,34 @@
             {% block navigation %}
             <div class="js-piece" data-id="{{pieces.navigation._id}}">
                 <nav class="navigation">
-                    <a href="{{pieces.navigation.atelier_link}}" data-link-key="atelier_link" class="navigation__link"><img src="{{pieces.navigation.atelier_image}}" data-image-key="atelier_image"></a>
-                    <a href="{{pieces.navigation.bureau_link}}" data-link-key="bureau_link" class="navigation__link"><img src="{{pieces.navigation.bureau_image}}" data-image-key="bureau_image"></a>
-                    <a href="{{pieces.navigation.salle_link}}" data-link-key="salle_link" class="navigation__link"><img src="{{pieces.navigation.salle_image}}" data-image-key="salle_image"></a>
+                    <a href="{{pieces.navigation.atelier_link}}" class="navigation__link"><img src="{{pieces.navigation.atelier_image}}"></a>
+                    <a href="{{pieces.navigation.bureau_link}}" class="navigation__link"><img src="{{pieces.navigation.bureau_image}}"></a>
+                    <a href="{{pieces.navigation.salle_link}}" class="navigation__link"><img src="{{pieces.navigation.salle_image}}"></a>
                 </nav>
                 <nav class="navigation">
-                    <a href="{{pieces.navigation.boutique_link}}" data-link-key="boutique_link" class="navigation__link"><img src="{{pieces.navigation.boutique_image}}" data-image-key="boutique_image"></a>
-                    <a href="{{pieces.navigation.cuisine_link}}" data-link-key="cuisine_link" class="navigation__link"><img src="{{pieces.navigation.cuisine_image}}" data-image-key="cuisine_image"></a>
-                    <a href="{{pieces.navigation.serre_link}}" data-link-key="serre_link" class="navigation__link"><img src="{{pieces.navigation.serre_image}}" data-image-key="serre_image"></a>
-                    <a href="{{pieces.navigation.equipe_link}}" data-link-key="equipe_link" class="navigation__link"><img src="{{pieces.navigation.equipe_image}}" data-image-key="equipe_image"></a>
+                    <a href="{{pieces.navigation.boutique_link}}" class="navigation__link"><img src="{{pieces.navigation.boutique_image}}"></a>
+                    <a href="{{pieces.navigation.cuisine_link}}" class="navigation__link"><img src="{{pieces.navigation.cuisine_image}}"></a>
+                    <a href="{{pieces.navigation.serre_link}}" class="navigation__link"><img src="{{pieces.navigation.serre_image}}"></a>
+                    <a href="{{pieces.navigation.equipe_link}}" class="navigation__link"><img src="{{pieces.navigation.equipe_image}}"></a>
                 </nav>
                 <nav class="navigation">
-                    <a href="{{pieces.navigation.evenements_link}}" data-link-key="evenements_link" class="navigation__link"><img src="{{pieces.navigation.evenements_image}}" data-image-key="evenements_image"></a>
-                    <a href="{{pieces.navigation.photos_link}}" data-link-key="photos_link" class="navigation__link"><img src="{{pieces.navigation.photos_image}}" data-image-key="photos_image"></a>
+                    <a href="{{pieces.navigation.evenements_link}}" class="navigation__link"><img src="{{pieces.navigation.evenements_image}}"></a>
+                    <a href="{{pieces.navigation.photos_link}}" class="navigation__link"><img src="{{pieces.navigation.photos_image}}"></a>
                 </nav>
                 <span data-piece-admin></span>
             </div>
             {% endblock %}
         </div>
 
+        {% include 'lists.html' %}
 
         
-        <div class="dev" id="dev">
+        {# <div class="dev" id="dev">
             <a href="#index" class="parallax js-parallax">
                 <img src="https://res.cloudinary.com/deming/image/upload/_dev_back.png" class="parallax__layer js-layer" data-depth=0.15>
                 <img src="https://res.cloudinary.com/deming/image/upload/_dev_front.png" class="parallax__layer js-layer" data-depth=0.30>
             </a>
-        </div>
+        </div> #}
 
 
 
@@ -106,6 +107,7 @@
         </script>
         <script src="/build/templates.js"></script>
         <script src="/build/app.js"></script>
+        <script src="https://checkout.stripe.com/checkout.js"></script>
 
 
         <script>
@@ -120,7 +122,7 @@
         </script>
 
         {% if debugging %}
-        <script src="//localhost:9000/livereload.js" async></script>
+        <script src="//localhost:9001/livereload.js" async></script>
         {% endif %}
 
     </body>

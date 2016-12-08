@@ -34,6 +34,46 @@
           }));
         };
       })(this));
+      this.checkout = StripeCheckout.configure({
+        key: "pk_test_2HjgvpC2f4FSLj90x9E6bOG9",
+        locale: "auto",
+        token: (function(_this) {
+          return function(token) {
+            return $.ajax({
+              type: "POST",
+              url: Plaza.settings.api + "_charge",
+              data: JSON.stringify({
+                token_id: token.id,
+                amount: _this.amount,
+                name: _this.name,
+                customer: token.email
+              }),
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function(response) {
+                console.log(response);
+                $("[data-post]").removeClass("overlay--show");
+                return $("[data-success]").addClass("overlay--show");
+              }
+            });
+          };
+        })(this)
+      });
+      $("[data-add-to-cart]").on("click", (function(_this) {
+        return function(e) {
+          var parent;
+          parent = $(e.currentTarget).parent().parent();
+          _this.amount = parseFloat(parent.find("[data-price]").text()) * 100;
+          _this.name = parent.find("[data-title]").text();
+          return _this.checkout.open({
+            name: _this.name,
+            description: parent.find("[data-description]").text(),
+            image: parent.find("[data-photo]").attr("src"),
+            currency: "cad",
+            amount: _this.amount
+          });
+        };
+      })(this));
       this.router = new Plaza.Routers.Router();
       return Backbone.history.start();
     }
@@ -248,6 +288,7 @@
         options.headers = {};
       }
       options.headers['Accept'] = 'application/json';
+      options.headers["X-Session-Id"] = Plaza.cookies.get("Session-Id");
       options.headers['X-Session-Secret'] = Plaza.cookies.get("Session-Secret");
       return options;
     };
@@ -614,6 +655,7 @@
         options = {};
       }
       return this.set({
+        _id: Plaza.cookies.get("Session-Id"),
         secret: Plaza.cookies.get("Session-Secret"),
         user_id: Plaza.cookies.get("User-Id")
       });
@@ -628,6 +670,7 @@
       }
       return Plaza.session.save(data, {
         success: function(model, response) {
+          Plaza.cookies.set("Session-Id", response._id);
           Plaza.cookies.set("Session-Secret", response.secret);
           Plaza.cookies.set("User-Id", response.user_id);
           return Plaza.user.initialize();
@@ -638,6 +681,7 @@
     Session.prototype.logout = function() {
       this.clear();
       Plaza.user.clear();
+      Plaza.cookies["delete"]("Session-Id");
       Plaza.cookies["delete"]("Session-Secret");
       Plaza.cookies["delete"]("User-Id");
       return window.location = window.location.pathname;
@@ -1341,7 +1385,7 @@
     Router.prototype.routes = {
       "dev": "dev",
       "index": "index",
-      "(:lang)(/)(:path)(/)": "path"
+      "(:path)(/)(:post)(/)": "path"
     };
 
     Router.prototype.views = [];
@@ -1363,27 +1407,32 @@
     };
 
     Router.prototype.index = function() {
-      return $("#dev").removeClass("dev--show");
+      $("[data-list]").removeClass("overlay--show");
+      $("[data-post]").removeClass("overlay--show");
+      $("[data-success]").removeClass("overlay--show");
+      return setTimeout(function() {
+        return $("[data-video-id]").removeAttr("src");
+      }, 666);
     };
 
-    Router.prototype.dev = function() {
-      return $("#dev").addClass("dev--show");
-    };
-
-    Router.prototype.path = function() {};
-
-    Router.prototype.list = function(list_route, route) {
-      return $(".js-post").each((function(_this) {
-        return function(index, element) {
-          var model;
-          model = new Plaza.Models.ListPost();
-          model.urlRoot = Plaza.settings.api + "lists/" + window.list_id + "/posts";
-          return _this.views.push(new Plaza.Views.Post({
-            el: element,
-            model: model
-          }));
-        };
-      })(this));
+    Router.prototype.path = function(path, post) {
+      var video;
+      $("[data-list='" + path + "']").addClass("overlay--show");
+      $("[data-success]").removeClass("overlay--show");
+      if (post != null) {
+        $("[data-post='" + post + "']").addClass("overlay--show");
+        video = $("[data-post='" + post + "'] [data-video-id]");
+        return setTimeout(function() {
+          if (video.length > 0) {
+            return video.attr("src", "https://www.youtube.com/embed/" + video.attr("data-video-id"));
+          }
+        }, 666);
+      } else {
+        $("[data-post]").removeClass("overlay--show");
+        return setTimeout(function() {
+          return $("[data-video-id]").removeAttr("src");
+        }, 666);
+      }
     };
 
     return Router;

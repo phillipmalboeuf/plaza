@@ -38,6 +38,10 @@ with app.app_context():
 			'metadata': validation_rules['metadata']
 		}
 
+		schema['content']['valueschema']['schema']['translations'] = { 'type': 'dict', 'schema': {} }
+		for lang in app.config['LANGS']:
+			schema['content']['valueschema']['schema']['translations']['schema'][lang] = { 'nullable': True }
+
 		endpoint = '/posts'
 		routes = [
 			{
