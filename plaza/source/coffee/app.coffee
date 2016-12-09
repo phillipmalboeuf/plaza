@@ -18,32 +18,6 @@ window.Plaza =
 
 		@session = new Plaza.Models.Session()
 		@user = new Plaza.Models.User()
-		
-		@admin_view = new Plaza.Views.Admin()
-
-		@views = []
-
-		$(".js-piece").each (index, element)=>
-			model = new Plaza.Models.Piece({"_id": element.getAttribute("data-id")})
-			@views.push new Plaza.Views.Piece({
-				el: element
-				model: model
-			})
-
-		$("[data-post]").each (index, element)=>
-			model = new Plaza.Models.ListPost({"_id": element.getAttribute("data-post")})
-			model.urlRoot = Plaza.settings.api + "lists/"+element.getAttribute("data-list-id")+"/posts"
-			@views.push new Plaza.Views.Post({
-				el: element
-				model: model
-			})
-
-
-		$(".js-parallax").each (index, element)=>
-			@views.push new Plaza.Views.Parallax({
-				el: element
-			})
-
 
 
 		@checkout = StripeCheckout.configure
@@ -67,7 +41,48 @@ window.Plaza =
 
 						$("[data-post]").removeClass "overlay--show"
 						$("[data-success]").addClass "overlay--show"
-				
+
+
+		this.render_views()
+
+		@router = new Plaza.Routers.Router()
+		Backbone.history.start()
+
+
+
+	render_views: ->
+
+		@admin_view = new Plaza.Views.Admin()
+
+		@views = []
+
+		$(".js-piece").each (index, element)=>
+			model = new Plaza.Models.Piece({"_id": element.getAttribute("data-id")})
+			@views.push new Plaza.Views.Piece({
+				el: element
+				model: model
+			})
+
+		$("[data-list]").each (index, element)=>
+			@views.push new Plaza.Views.List({
+				el: element
+			})
+
+		$("[data-post]").each (index, element)=>
+			model = new Plaza.Models.ListPost({"_id": element.getAttribute("data-post")})
+			model.urlRoot = Plaza.settings.api + "lists/"+element.getAttribute("data-list-id")+"/posts"
+			@views.push new Plaza.Views.Post({
+				el: element
+				model: model
+			})
+
+
+		$(".js-parallax").each (index, element)=>
+			@views.push new Plaza.Views.Parallax({
+				el: element
+			})
+
+
 
 		$("[data-add-to-cart]").on "click", (e)=>
 			parent = $(e.currentTarget).parent().parent()
@@ -81,11 +96,6 @@ window.Plaza =
 				currency: "cad",
 				amount: @amount
 
-
-
-
-		@router = new Plaza.Routers.Router()
-		Backbone.history.start()
 	
 
 

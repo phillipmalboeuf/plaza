@@ -11,6 +11,8 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 
 	initialize: ->
 
+		@list_route = this.el.getAttribute("data-list-route")
+
 		super()
 
 

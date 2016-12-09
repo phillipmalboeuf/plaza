@@ -57,7 +57,9 @@ this["templates"]["admin/edit_admin"] = Handlebars.template({"compiler":[7,">= 4
     + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.pieces : depth0)) != null ? stack1.admin : stack1)) != null ? stack1["delete"] : stack1), depth0))
     + "</button></p>\n</div>\n<div class=\"col col--3of12\">\n<p class=\"medium_bottom\">\n<img src=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.model : depth0)) != null ? stack1.thumbnail : stack1), depth0))
-    + "\" data-thumbnail>\n</p>\n</div>\n</div>\n";
+    + "\" alt=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.model : depth0)) != null ? stack1.title : stack1), depth0))
+    + " Thumbnail\" data-thumbnail>\n</p>\n</div>\n</div>\n";
 },"useData":true});
 
 this["templates"]["admin/file_link"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -68,6 +70,10 @@ this["templates"]["admin/file_link"] = Handlebars.template({"compiler":[7,">= 4.
     + "\">"
     + alias4(((helper = (helper = helpers.link || (depth0 != null ? depth0.link : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"link","hash":{},"data":data}) : helper)))
     + "</span>]</small>\n";
+},"useData":true});
+
+this["templates"]["admin/list_admin"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<div class=\"padded\">\n<button class=\"medium_bottom\" data-new=\"photo\">Nouvelle Photo</button><br>\n<button class=\"medium_bottom\" data-new=\"product\">Nouveau Produit</button><br>\n<button data-new=\"video\">Nouveau Vidéo</button>\n</div>\n";
 },"useData":true});
 
 this["templates"]["admin/piece_admin"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

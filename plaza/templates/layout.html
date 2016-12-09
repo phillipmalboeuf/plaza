@@ -28,7 +28,7 @@
     </head>
 
 
-    <body class="{{lang}} {% block body_classes %}{% endblock %}">
+    <body class="{{lang}} {% block body_classes %}{% endblock %}" data-turbolinks="false">
 
 
 
@@ -94,10 +94,12 @@
 
 
 
-        <script src="//cdn.jsdelivr.net/g/jquery@3.0.0-beta1(jquery.min.js),underscorejs@1.8.3,backbonejs@1.2.3,handlebarsjs@4.0.5,to-markdown@1.3.0,marked@0.3.5,velocity@1.2.3"></script>
+        <script src="//cdn.jsdelivr.net/g/jquery@3.0.0-beta1(jquery.min.js),underscorejs@1.8.3,backbonejs@1.2.3,handlebarsjs@4.0.5,to-markdown@1.3.0,marked@0.3.5,velocity@1.2.3" data-turbolinks-eval="false"></script>
+        <script src="https://checkout.stripe.com/checkout.js" data-turbolinks-eval="false"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/turbolinks/5.0.0/turbolinks.min.js" async></script>
 
 
-        <script>
+        <script data-turbolinks-eval="false">
             var pieces = {{pieces_json|safe}};
             var plaza_settings = {
                 api: window.location.origin+"/"{% if lang %},
@@ -105,9 +107,9 @@
                 lang_route: "{{lang_route}}"
             }
         </script>
-        <script src="/build/templates.js"></script>
-        <script src="/build/app.js"></script>
-        <script src="https://checkout.stripe.com/checkout.js"></script>
+        <script src="/build/templates.js" data-turbolinks-eval="false"></script>
+        <script src="/build/app.js" data-turbolinks-eval="false"></script>
+        
 
 
         <script>

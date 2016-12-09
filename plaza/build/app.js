@@ -13,40 +13,6 @@
     init: function() {
       this.session = new Plaza.Models.Session();
       this.user = new Plaza.Models.User();
-      this.admin_view = new Plaza.Views.Admin();
-      this.views = [];
-      $(".js-piece").each((function(_this) {
-        return function(index, element) {
-          var model;
-          model = new Plaza.Models.Piece({
-            "_id": element.getAttribute("data-id")
-          });
-          return _this.views.push(new Plaza.Views.Piece({
-            el: element,
-            model: model
-          }));
-        };
-      })(this));
-      $("[data-post]").each((function(_this) {
-        return function(index, element) {
-          var model;
-          model = new Plaza.Models.ListPost({
-            "_id": element.getAttribute("data-post")
-          });
-          model.urlRoot = Plaza.settings.api + "lists/" + element.getAttribute("data-list-id") + "/posts";
-          return _this.views.push(new Plaza.Views.Post({
-            el: element,
-            model: model
-          }));
-        };
-      })(this));
-      $(".js-parallax").each((function(_this) {
-        return function(index, element) {
-          return _this.views.push(new Plaza.Views.Parallax({
-            el: element
-          }));
-        };
-      })(this));
       this.checkout = StripeCheckout.configure({
         key: "pk_test_2HjgvpC2f4FSLj90x9E6bOG9",
         locale: "auto",
@@ -72,7 +38,53 @@
           };
         })(this)
       });
-      $("[data-add-to-cart]").on("click", (function(_this) {
+      this.render_views();
+      this.router = new Plaza.Routers.Router();
+      return Backbone.history.start();
+    },
+    render_views: function() {
+      this.admin_view = new Plaza.Views.Admin();
+      this.views = [];
+      $(".js-piece").each((function(_this) {
+        return function(index, element) {
+          var model;
+          model = new Plaza.Models.Piece({
+            "_id": element.getAttribute("data-id")
+          });
+          return _this.views.push(new Plaza.Views.Piece({
+            el: element,
+            model: model
+          }));
+        };
+      })(this));
+      $("[data-list]").each((function(_this) {
+        return function(index, element) {
+          return _this.views.push(new Plaza.Views.List({
+            el: element
+          }));
+        };
+      })(this));
+      $("[data-post]").each((function(_this) {
+        return function(index, element) {
+          var model;
+          model = new Plaza.Models.ListPost({
+            "_id": element.getAttribute("data-post")
+          });
+          model.urlRoot = Plaza.settings.api + "lists/" + element.getAttribute("data-list-id") + "/posts";
+          return _this.views.push(new Plaza.Views.Post({
+            el: element,
+            model: model
+          }));
+        };
+      })(this));
+      $(".js-parallax").each((function(_this) {
+        return function(index, element) {
+          return _this.views.push(new Plaza.Views.Parallax({
+            el: element
+          }));
+        };
+      })(this));
+      return $("[data-add-to-cart]").on("click", (function(_this) {
         return function(e) {
           var parent;
           parent = $(e.currentTarget).parent().parent();
@@ -87,8 +99,6 @@
           });
         };
       })(this));
-      this.router = new Plaza.Routers.Router();
-      return Backbone.history.start();
     }
   };
 
@@ -762,7 +772,9 @@
       this.events["click .js-save_edit"] = "save_edit";
       this.events["click .js-destroy"] = "destroy";
       this.listenTo(this.model, "sync", this.render);
-      this.model.fetch();
+      if ((Plaza.session != null) && Plaza.session.has("user_id")) {
+        this.model.fetch();
+      }
       return Editable.__super__.initialize.call(this);
     };
 
@@ -786,9 +798,18 @@
     Editable.prototype.destroy = function() {
       if (confirm("Are you sure?")) {
         return this.model.destroy({
-          success: function(model, response) {
-            return window.location = "/lists/" + window.list_route;
-          }
+          success: (function(_this) {
+            return function(model, response) {
+              Turbolinks.visit("/");
+              return $(document).on("turbolinks:load", function() {
+                $(document).off("turbolinks:load");
+                Plaza.render_views();
+                return Plaza.router.navigate(_this.list_route, {
+                  trigger: true
+                });
+              });
+            };
+          })(this)
         });
       }
     };
@@ -882,6 +903,89 @@
     };
 
     return Admin;
+
+  })(Plaza.View);
+
+}).call(this);
+
+(function() {
+  var extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  Plaza.Views.List = (function(superClass) {
+    extend(List, superClass);
+
+    function List() {
+      return List.__super__.constructor.apply(this, arguments);
+    }
+
+    List.prototype.list_admin_template = templates["admin/list_admin"];
+
+    List.prototype.events = {
+      "click [data-new]": "new"
+    };
+
+    List.prototype.initialize = function() {
+      return List.__super__.initialize.call(this);
+    };
+
+    List.prototype.render = function() {
+      List.__super__.render.call(this);
+      if (this.data.is_authenticated) {
+        this.$el.find("[data-list-admin]").html(this.list_admin_template(this.data));
+        this.delegateEvents();
+      }
+      return this;
+    };
+
+    List.prototype["new"] = function(e) {
+      var list_route, model, type;
+      type = e.currentTarget.getAttribute("data-new");
+      model = new Plaza.Models.ListPost();
+      model.urlRoot = Plaza.settings.api + "lists/" + this.el.getAttribute("data-list-id") + "/posts";
+      model.attributes.content = {};
+      model.attributes.content["is_" + type] = {
+        value: true
+      };
+      if (type === "product") {
+        model.attributes.content["product_description"] = {
+          value: "Description du produit"
+        };
+        model.attributes.content["product_price"] = {
+          value: 10.0
+        };
+        model.attributes.content["product_photo"] = {
+          value: ""
+        };
+      } else if (type === "photo") {
+        model.attributes.content["photo"] = {
+          value: ""
+        };
+      } else if (type === "video") {
+        model.attributes.content["video_embed_id"] = {
+          value: "MNqYeNahqK8"
+        };
+      }
+      list_route = this.el.getAttribute("data-list");
+      return model.save({
+        title: "Nom de l'objet",
+        is_online: true
+      }, {
+        success: function(model, response) {
+          console.log(response);
+          Turbolinks.visit("/");
+          return $(document).on("turbolinks:load", function() {
+            $(document).off("turbolinks:load");
+            Plaza.render_views();
+            return Plaza.router.navigate(list_route + "/" + response._id, {
+              trigger: true
+            });
+          });
+        }
+      });
+    };
+
+    return List;
 
   })(Plaza.View);
 
@@ -1121,6 +1225,7 @@
     };
 
     Post.prototype.initialize = function() {
+      this.list_route = this.el.getAttribute("data-list-route");
       return Post.__super__.initialize.call(this);
     };
 

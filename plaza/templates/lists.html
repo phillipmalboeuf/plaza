@@ -13,9 +13,11 @@
 			<div class="grid grid--guttered">
 				{% for post in list.posts %}
 				<div class="col col--3of12">
-					<a href="#{{list.route}}/{{post._id}}"><img src="{{post.thumbnail}}" alt="{{post.title}}"></a>
+					<a href="#{{list.route}}/{{post._id}}"><img src="{{post.thumbnail}}" alt="{{post.title}} Thumbnail"></a>
 				</div>
 				{% endfor %}
+
+				<div class="col col--3of12" data-list-admin></div>
 			</div>
 		</div>
 	</div>
@@ -23,19 +25,19 @@
 
 
 {% for post in list.posts %}
-<div class="overlay" data-post="{{post._id}}" data-list-id="{{list._id}}">
+<div class="overlay" data-post="{{post._id}}" data-list-id="{{list._id}}" data-list-route="{{list.route}}">
 
 	<a href="#{{list.route}}" class="overlay__back"></a>
 	
 	<div class="overlay__container overlay__container--transparent">
 		{% if post.is_photo == true %}
 		<p class="text_center" data-title>{{post.title}}</p>
-		<img src="{{post.photo}}" class="img--center" data-content-image-key="photo">
+		<img src="{{post.photo}}" class="img--center" data-content-image-key="photo" alt="Photo">
 		{% elif post.is_product == true %}
 		<div class="padded white_back">
 			<div class="grid grid--guttered">
 				<div class="col col--7of12 col--small--12of12">
-					<img src="{{post.product_photo}}" data-photo data-content-image-key="product_photo">
+					<img src="{{post.product_photo}}" data-photo data-content-image-key="product_photo" alt="Photo du produit">
 				</div>
 				<div class="col col--5of12 col--small--12of12">
 					<h2 data-title>{{post.title}}</h2>

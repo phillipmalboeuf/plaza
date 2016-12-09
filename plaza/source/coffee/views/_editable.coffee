@@ -11,7 +11,8 @@ class Plaza.Views.Editable extends Plaza.View
 
 		this.listenTo @model, "sync", this.render
 
-		@model.fetch()
+		if Plaza.session? and Plaza.session.has("user_id")
+			@model.fetch()
 
 		super()
 
@@ -42,8 +43,15 @@ class Plaza.Views.Editable extends Plaza.View
 	destroy: ->
 		if confirm("Are you sure?")
 			@model.destroy
-				success: (model, response)->
+				success: (model, response)=>
 
-					window.location = "/lists/" + window.list_route
+					Turbolinks.visit "/"
+					$(document).on "turbolinks:load", =>
+						$(document).off "turbolinks:load"
+
+						Plaza.render_views()
+						Plaza.router.navigate @list_route,
+							trigger: true
+
 
 
