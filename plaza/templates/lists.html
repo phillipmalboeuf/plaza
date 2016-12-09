@@ -6,7 +6,7 @@
 	<a href="#index" class="overlay__back"></a>
 
 	<div class="overlay__container padded padded--thick js-layer js-piece" data-id="{{pieces.lists._id}}" data-depth=0.15>
-		<div class="text_right"><a href="#index" class="overlay__close">Retour</a></div>
+		<div class="text_right"><a href="#index" class="overlay__close"><img src="/build/images/close.png" alt="Close"></a></div>
 
 		<h2 class="text_center"><span data-key="{{list.route}}_title">{{pieces.lists[list.route + '_title']|safe}}</span></h2>
 		<div class="medium_bottom"><span data-key="{{list.route}}_description">{{pieces.lists[list.route + '_description']|safe}}</span> <span data-piece-admin></span></div>
@@ -32,13 +32,15 @@
 	<a href="#{{list.route}}" class="overlay__back"></a>
 	
 	<div class="overlay__container overlay__container--transparent">
-		<div class="text_right"><a href="#{{list.route}}" class="overlay__close">Retour</a></div>
-
 		{% if post.is_photo == true %}
+		<div class="text_right padded padded--flat_bottom"><a href="#{{list.route}}" class="overlay__close"><img src="/build/images/close.png" alt="Close"></a></div>
+
 		<p class="text_center" data-title>{{post.title}}</p>
 		<img src="{{post.photo}}" class="img--center" data-content-image-key="photo" alt="Photo">
 		{% elif post.is_product == true %}
 		<div class="padded white_back">
+			<div class="text_right"><a href="#{{list.route}}" class="overlay__close"><img src="/build/images/close.png" alt="Close"></a></div>
+
 			<div class="grid grid--guttered">
 				<div class="col col--7of12 col--small--12of12">
 					<img src="{{post.product_photo}}" data-photo data-content-image-key="product_photo" alt="Photo du produit">
@@ -53,6 +55,8 @@
 			</div>
 		</div>
 		{% elif post.is_video == true %}
+		<div class="text_right padded padded--flat_bottom"><a href="#{{list.route}}" class="overlay__close"><img src="/build/images/close.png" alt="Close"></a></div>
+
 		<p class="text_center" data-title>{{post.title}}</p>
 		<div class="video_container">
 			<iframe src="" data-video-id="{{post.video_embed_id}}" frameborder="0" allowfullscreen scrolling="no"></iframe>
