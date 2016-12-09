@@ -21,7 +21,7 @@ window.Plaza =
 
 
 		@checkout = StripeCheckout.configure
-			key: "pk_test_2HjgvpC2f4FSLj90x9E6bOG9"
+			key: "pk_test_0udJQOXLkJu94VVFOzdd6YyX"
 			locale: "auto",
 			token: (token)=>
 

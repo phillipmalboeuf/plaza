@@ -75,17 +75,6 @@ with app.app_context():
 		]
 
 
-		templates = [
-			{
-				'view_function': 'get_view',
-				'template': 'lists/<parent_route>.post.html',
-				'response_key': 'post',
-				'prerender_process': '_response_values'
-			}
-		]
-
-
-
 		@classmethod
 		def preprocess(cls, document):
 
