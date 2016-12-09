@@ -25,6 +25,7 @@ class Plaza.View extends Backbone.View
 			session: Plaza.session.toJSON() if Plaza.session?
 			user: Plaza.user.toJSON() if Plaza.user?
 			is_authenticated: Plaza.session.has("user_id") if Plaza.session?
+			is_admin: Plaza.user.get("is_admin") if Plaza.user?
 
 		if @templates?
 			html = ""

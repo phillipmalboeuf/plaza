@@ -27,6 +27,19 @@
           }));
         };
       })(this));
+      $("[data-post]").each((function(_this) {
+        return function(index, element) {
+          var model;
+          model = new Plaza.Models.ListPost({
+            "_id": element.getAttribute("data-post")
+          });
+          model.urlRoot = Plaza.settings.api + "lists/" + element.getAttribute("data-list-id") + "/posts";
+          return _this.views.push(new Plaza.Views.Post({
+            el: element,
+            model: model
+          }));
+        };
+      })(this));
       $(".js-parallax").each((function(_this) {
         return function(index, element) {
           return _this.views.push(new Plaza.Views.Parallax({
@@ -518,6 +531,8 @@
         user: Plaza.user.toJSON()
       } : void 0, Plaza.session != null ? {
         is_authenticated: Plaza.session.has("user_id")
+      } : void 0, Plaza.user != null ? {
+        is_admin: Plaza.user.get("is_admin")
       } : void 0);
       if (this.templates != null) {
         html = "";
@@ -743,19 +758,10 @@
 
     Editable.prototype.edit_admin_template = templates["admin/edit_admin"];
 
-    Editable.prototype.tag_input_template = templates["admin/tag_input"];
-
-    Editable.prototype.tag_template = templates["admin/tag"];
-
     Editable.prototype.initialize = function() {
       this.events["click .js-save_edit"] = "save_edit";
       this.events["click .js-destroy"] = "destroy";
-      this.events["keypress [name='tag_input']"] = "input_tag";
-      this.events["blur [name='tag_input']"] = "blur_tag";
       this.listenTo(this.model, "sync", this.render);
-      this.model.set({
-        _id: this.$el.attr("data-id")
-      });
       this.model.fetch();
       return Editable.__super__.initialize.call(this);
     };
@@ -766,26 +772,14 @@
       });
       Editable.__super__.render.call(this);
       if (this.data.is_authenticated) {
-        this.$el.find("[data-tag]").attr("contenteditable", "true");
-        this.$el.find("[data-tag-input]").html(this.tag_input_template(this.data));
         this.$el.find("[data-admin]").html(this.edit_admin_template(this.data));
+        this.$el.find(".admin_only").removeClass("admin_only");
         this.delegateEvents();
       }
       return this;
     };
 
     Editable.prototype.save_edit = function(e) {
-      var tags;
-      this.model.set({
-        is_online: this.$el.find("[name='is_online']")[0].checked
-      });
-      tags = [];
-      this.$el.find("[data-tag]").each((function(_this) {
-        return function(index, tag) {
-          return tags.push(tag.innerHTML);
-        };
-      })(this));
-      this.model.attributes.tags = tags;
       return this.model.save();
     };
 
@@ -797,40 +791,6 @@
           }
         });
       }
-    };
-
-    Editable.prototype.input_tag = function(e) {
-      if (e.keyCode === 13) {
-        e.preventDefault();
-        return this.insert_tag(e.currentTarget);
-      }
-    };
-
-    Editable.prototype.blur_tag = function(e) {
-      var value;
-      value = e.currentTarget.value.trim();
-      if (value !== "") {
-        e.preventDefault();
-        this.insert_tag(e.currentTarget);
-        return $(e.currentTarget).focus();
-      }
-    };
-
-    Editable.prototype.insert_tag = function(target) {
-      var fn, i, len, value, values;
-      values = target.value.trim().split(",");
-      fn = (function(_this) {
-        return function(value) {
-          return $(_this.tag_template({
-            tag: value.trim().toLowerCase()
-          })).insertBefore($(target).parent());
-        };
-      })(this);
-      for (i = 0, len = values.length; i < len; i++) {
-        value = values[i];
-        fn(value);
-      }
-      return target.value = "";
     };
 
     return Editable;
@@ -1154,13 +1114,10 @@
       return Post.__super__.constructor.apply(this, arguments);
     }
 
-    Post.prototype.author_input_template = templates["admin/author_input"];
-
-    Post.prototype.author_template = templates["admin/author"];
-
     Post.prototype.events = {
-      "click .js-maximize": "maximize",
-      "click .js-minimize": "minimize"
+      "click [data-thumbnail]": "trigger_upload",
+      "click [data-content-image-key]": "trigger_upload",
+      "change [data-image-input]": "upload_image"
     };
 
     Post.prototype.initialize = function() {
@@ -1171,47 +1128,57 @@
       Post.__super__.render.call(this);
       if (this.data.is_authenticated) {
         this.$el.find("[data-title]").attr("contenteditable", "true");
-        this.$el.find("[data-published-date]").attr("contenteditable", "true");
+        this.$el.find("[data-thumbnail]").each((function(_this) {
+          return function(index, image) {
+            return $(image).addClass("img--clickable");
+          };
+        })(this));
         this.$el.find("[data-content-key]").attr("contenteditable", "true");
+        this.$el.find("[data-content-image-key]").each((function(_this) {
+          return function(index, image) {
+            return $(image).addClass("img--clickable");
+          };
+        })(this));
         this.delegateEvents();
       }
       return this;
     };
 
     Post.prototype.save_edit = function(e) {
-      var value;
       this.model.set({
         title: this.$el.find("[data-title]").html(),
-        published_date: this.$el.find("[data-published-date]").html()
+        thumbnail: this.$el.find("[data-thumbnail]").attr("src")
       });
-      value = "";
       this.$el.find("[data-content-key]").each((function(_this) {
         return function(index, content) {
-          value = content.innerHTML;
-          if (content.getAttribute("data-is-markdown") != null) {
-            value = toMarkdown(content.innerHTML);
-            content.innerHTML = marked(value);
-          }
-          return _this.model.attributes.content[content.getAttribute("data-content-key")].value = value;
+          return _this.model.attributes.content[content.getAttribute("data-content-key")].value = content.innerHTML;
+        };
+      })(this));
+      this.$el.find("[data-content-image-key]").each((function(_this) {
+        return function(index, image) {
+          return _this.model.attributes.content[image.getAttribute("data-content-image-key")].value = image.getAttribute("src");
         };
       })(this));
       return Post.__super__.save_edit.call(this);
     };
 
-    Post.prototype.maximize = function(e) {
-      e.preventDefault();
-      $(e.currentTarget).addClass("hide");
-      this.$el.find(".js-minimize").removeClass("hide");
-      this.$el.find(".blog__post__content").removeClass("blog__post__content--minimized");
-      return Plaza.router.navigate(e.currentTarget.getAttribute("href"));
+    Post.prototype.trigger_upload = function(e) {
+      this.image = $(e.currentTarget);
+      return this.$el.find("[data-image-input]").click();
     };
 
-    Post.prototype.minimize = function(e) {
-      e.preventDefault();
-      $(e.currentTarget).addClass("hide");
-      this.$el.find(".js-maximize").removeClass("hide");
-      this.$el.find(".blog__post__content").addClass("blog__post__content--minimized");
-      return Plaza.router.navigate("/lists/blog");
+    Post.prototype.upload_image = function(e) {
+      var file;
+      file = e.currentTarget.files[0];
+      if (file.type.match('image.*')) {
+        return Plaza.helpers.upload(file, {
+          success: (function(_this) {
+            return function(response) {
+              return _this.image.attr("src", Plaza.settings.cdn + response.url);
+            };
+          })(this)
+        });
+      }
     };
 
     return Post;

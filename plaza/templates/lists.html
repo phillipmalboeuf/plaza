@@ -23,33 +23,39 @@
 
 
 {% for post in list.posts %}
-<div class="overlay" data-post="{{post._id}}">
+<div class="overlay" data-post="{{post._id}}" data-list-id="{{list._id}}">
 
 	<a href="#{{list.route}}" class="overlay__back"></a>
 	
 	<div class="overlay__container overlay__container--transparent">
 		{% if post.is_photo == true %}
-		<img src="{{post.photo}}" class="img--center">
+		<p class="text_center" data-title>{{post.title}}</p>
+		<img src="{{post.photo}}" class="img--center" data-content-image-key="photo">
 		{% elif post.is_product == true %}
 		<div class="padded white_back">
 			<div class="grid grid--guttered">
 				<div class="col col--7of12 col--small--12of12">
-					<img src="{{post.product_photo}}" data-photo>
+					<img src="{{post.product_photo}}" data-photo data-content-image-key="product_photo">
 				</div>
 				<div class="col col--5of12 col--small--12of12">
 					<h2 data-title>{{post.title}}</h2>
-					<p class="big_bottom" data-description>{{post.product_description}}</p>
-					<p class="big_bottom"><span data-price>{{post.product_price}}</span>$</p>
+					<p class="big_bottom" data-description data-content-key="product_description">{{post.product_description}}</p>
+					<p class="big_bottom"><span data-price data-content-key="product_price">{{post.product_price}}</span>$</p>
 
-					<button data-add-to-cart>Add to Cart</button>
+					<button data-add-to-cart>{{pieces.lists.add_to_cart}}</button>
 				</div>
 			</div>
 		</div>
 		{% elif post.is_video == true %}
+		<p class="text_center" data-title>{{post.title}}</p>
 		<div class="video_container">
 			<iframe src="" data-video-id="{{post.video_embed_id}}" frameborder="0" allowfullscreen scrolling="no"></iframe>
 		</div>
+
+		<div class="admin_only" data-content-key="video_embed_id">{{post.video_embed_id}}</div>
 		{% endif %}
+
+		<div data-admin></div>
 	</div>
 </div>
 {% endfor %}

@@ -30,6 +30,14 @@ window.Plaza =
 				model: model
 			})
 
+		$("[data-post]").each (index, element)=>
+			model = new Plaza.Models.ListPost({"_id": element.getAttribute("data-post")})
+			model.urlRoot = Plaza.settings.api + "lists/"+element.getAttribute("data-list-id")+"/posts"
+			@views.push new Plaza.Views.Post({
+				el: element
+				model: model
+			})
+
 
 		$(".js-parallax").each (index, element)=>
 			@views.push new Plaza.Views.Parallax({

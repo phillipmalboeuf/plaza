@@ -48,20 +48,16 @@ this["templates"]["admin/author_input"] = Handlebars.template({"compiler":[7,">=
     return "<input class=\"em input--inline\" placeholder=\"Add an author\" type=\"text\" name=\"author_input\">\n";
 },"useData":true});
 
-this["templates"]["admin/edit_admin"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    return "checked";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+this["templates"]["admin/edit_admin"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.lambda, alias2=container.escapeExpression;
 
-  return "<input type=\"checkbox\" id=\"is_online\" name=\"is_online\" "
-    + ((stack1 = helpers["if"].call(depth0 != null ? depth0 : {},((stack1 = (depth0 != null ? depth0.model : depth0)) != null ? stack1.is_online : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ">\n<label for=\"is_online\">"
-    + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.pieces : depth0)) != null ? stack1.admin : stack1)) != null ? stack1.online : stack1), depth0))
-    + "</label>\n\n<br>\n\n<p><button class=\"js-save_edit\">"
+  return "<input type=\"file\" class=\"hide\" data-image-input>\n\n<div class=\"grid padded\">\n<div class=\"col col--2of12\">\n<p><button class=\"js-save_edit\">"
     + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.pieces : depth0)) != null ? stack1.admin : stack1)) != null ? stack1.save : stack1), depth0))
     + "</button></p>\n<p><button class=\"button--transparent js-destroy\">"
     + alias2(alias1(((stack1 = ((stack1 = (depth0 != null ? depth0.pieces : depth0)) != null ? stack1.admin : stack1)) != null ? stack1["delete"] : stack1), depth0))
-    + "</button></p>\n";
+    + "</button></p>\n</div>\n<div class=\"col col--3of12\">\n<p class=\"medium_bottom\">\n<img src=\""
+    + alias2(alias1(((stack1 = (depth0 != null ? depth0.model : depth0)) != null ? stack1.thumbnail : stack1), depth0))
+    + "\" data-thumbnail>\n</p>\n</div>\n</div>\n";
 },"useData":true});
 
 this["templates"]["admin/file_link"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

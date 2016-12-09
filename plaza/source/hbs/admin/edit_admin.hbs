@@ -1,8 +1,15 @@
 
-<input type="checkbox" id="is_online" name="is_online" {{#if model.is_online}}checked{{/if}}>
-<label for="is_online">{{pieces.admin.online}}</label>
+<input type="file" class="hide" data-image-input>
 
-<br>
+<div class="grid padded">
+	<div class="col col--2of12">
+		<p><button class="js-save_edit">{{pieces.admin.save}}</button></p>
+		<p><button class="button--transparent js-destroy">{{pieces.admin.delete}}</button></p>
+	</div>
+	<div class="col col--3of12">
+		<p class="medium_bottom">
+			<img src="{{model.thumbnail}}" data-thumbnail>
+		</p>
+	</div>
+</div>
 
-<p><button class="js-save_edit">{{pieces.admin.save}}</button></p>
-<p><button class="button--transparent js-destroy">{{pieces.admin.delete}}</button></p>

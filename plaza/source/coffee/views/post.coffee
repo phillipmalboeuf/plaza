@@ -1,13 +1,11 @@
 
 class Plaza.Views.Post extends Plaza.Views.Editable
 
-	author_input_template: templates["admin/author_input"]
-	author_template: templates["admin/author"]
-
 
 	events: {
-		"click .js-maximize": "maximize"
-		"click .js-minimize": "minimize"
+		"click [data-thumbnail]": "trigger_upload"
+		"click [data-content-image-key]": "trigger_upload"
+		"change [data-image-input]": "upload_image"
 	}
 
 
@@ -23,8 +21,14 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 
 		if @data.is_authenticated
 			this.$el.find("[data-title]").attr "contenteditable", "true"
-			this.$el.find("[data-published-date]").attr "contenteditable", "true"
+			this.$el.find("[data-thumbnail]").each (index, image)=>
+				$(image).addClass "img--clickable"
+
 			this.$el.find("[data-content-key]").attr "contenteditable", "true"
+			this.$el.find("[data-content-image-key]").each (index, image)=>
+				$(image).addClass "img--clickable"
+
+
 
 			this.delegateEvents()
 
@@ -35,40 +39,30 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 	save_edit: (e)->
 		@model.set
 			title: this.$el.find("[data-title]").html()
-			published_date: this.$el.find("[data-published-date]").html()
+			thumbnail: this.$el.find("[data-thumbnail]").attr("src")
 
-
-		value = ""
 		this.$el.find("[data-content-key]").each (index, content)=>
-			value = content.innerHTML
-			if content.getAttribute("data-is-markdown")?
-				value = toMarkdown(content.innerHTML)
-				content.innerHTML = marked(value)
-				
-			@model.attributes.content[content.getAttribute("data-content-key")].value = value
+			@model.attributes.content[content.getAttribute("data-content-key")].value = content.innerHTML
 
+		this.$el.find("[data-content-image-key]").each (index, image)=>
+			@model.attributes.content[image.getAttribute("data-content-image-key")].value = image.getAttribute("src")
 
 		super()
 
 
 
-	maximize: (e)->
-		e.preventDefault()
-
-		$(e.currentTarget).addClass "hide"
-		this.$el.find(".js-minimize").removeClass "hide"
-		this.$el.find(".blog__post__content").removeClass "blog__post__content--minimized"
-
-		Plaza.router.navigate e.currentTarget.getAttribute("href")
+	trigger_upload: (e)->
+		@image = $(e.currentTarget)
+		this.$el.find("[data-image-input]").click()
 
 
-	minimize: (e)->
-		e.preventDefault()
-
-		$(e.currentTarget).addClass "hide"
-		this.$el.find(".js-maximize").removeClass "hide"
-		this.$el.find(".blog__post__content").addClass "blog__post__content--minimized"
-
-		Plaza.router.navigate "/lists/blog"
+	upload_image: (e)->
+		file = e.currentTarget.files[0]
+		if file.type.match('image.*')
+			Plaza.helpers.upload file,
+				success: (response)=>
+					
+					@image.attr "src", Plaza.settings.cdn+response.url
+ 
 
 

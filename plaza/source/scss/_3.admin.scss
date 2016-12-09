@@ -2,6 +2,10 @@
 
 // #ADMIN
 
+.admin_only {
+	display: none !important;
+}
+
 .admin {
 	position: fixed;
 	bottom: $gutter/2;

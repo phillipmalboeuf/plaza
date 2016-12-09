@@ -8,7 +8,7 @@ validation_rules = {
 	'number':{ 'type': 'number', 'min': 0.0 },
 
 	'email': { 'type': 'string', 'regex': '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$' },
-	'image': { 'type': 'string', 'regex': '/(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/i' },
+	'image': { 'type': 'string' },
 	'interval': { 'type': 'string', 'allowed': ['day', 'week', 'month', 'year']},
 	'day': { 'type': 'integer', 'min': 0, 'max': 6 },
 	'datetime': { 'type': 'datetime' },
