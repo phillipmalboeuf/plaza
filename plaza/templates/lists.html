@@ -6,6 +6,8 @@
 	<a href="#index" class="overlay__back"></a>
 
 	<div class="overlay__container padded padded--thick js-layer js-piece" data-id="{{pieces.lists._id}}" data-depth=0.15>
+		<div class="text_right"><a href="#index" class="overlay__close">Retour</a></div>
+
 		<h2 class="text_center"><span data-key="{{list.route}}_title">{{pieces.lists[list.route + '_title']|safe}}</span></h2>
 		<div class="medium_bottom"><span data-key="{{list.route}}_description">{{pieces.lists[list.route + '_description']|safe}}</span> <span data-piece-admin></span></div>
 
@@ -30,6 +32,8 @@
 	<a href="#{{list.route}}" class="overlay__back"></a>
 	
 	<div class="overlay__container overlay__container--transparent">
+		<div class="text_right"><a href="#{{list.route}}" class="overlay__close">Retour</a></div>
+
 		{% if post.is_photo == true %}
 		<p class="text_center" data-title>{{post.title}}</p>
 		<img src="{{post.photo}}" class="img--center" data-content-image-key="photo" alt="Photo">
