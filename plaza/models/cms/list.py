@@ -154,28 +154,16 @@ with app.app_context():
 					posts = []
 
 					for post in _list['posts']:
-						try:
-							post_authors = []
-
-							for post_author in post['authors']:
-								for author in authors:
-									if author['_id'] == post_author:
-										post_authors.append(author)
-										break
-
-							post['author_ids'] = post['authors']
-							post['authors'] = post_authors
-
-						except KeyError:
-							pass
-
-
-
-					for post in _list['posts']:
 						post_values = post.copy()
 
 						try:
 							for (key, value) in post_values['content'].items():
+								if lang is not None:
+									try:
+										value['value'] = value['translations'][lang]
+									except KeyError:
+										pass
+								
 								if 'is_markdown' in value and value['is_markdown']:
 									post_values[key] = markdown.markdown(value['value'])
 								else:

@@ -89,7 +89,7 @@
           var parent;
           parent = $(e.currentTarget).parent().parent();
           _this.amount = parseFloat(parent.find("[data-price]").text()) * 100;
-          _this.name = parent.find("[data-title]").text();
+          _this.name = parent.find("[data-content-key='title']").text();
           return _this.checkout.open({
             name: _this.name,
             description: parent.find("[data-description]").text(),
@@ -948,6 +948,9 @@
         value: true
       };
       if (type === "product") {
+        model.attributes.content["title"] = {
+          value: "Nom du produit"
+        };
         model.attributes.content["product_description"] = {
           value: "Description du produit"
         };
@@ -958,10 +961,16 @@
           value: ""
         };
       } else if (type === "photo") {
+        model.attributes.content["title"] = {
+          value: "Nom de la photo"
+        };
         model.attributes.content["photo"] = {
           value: ""
         };
       } else if (type === "video") {
+        model.attributes.content["title"] = {
+          value: "Nom du vidéo"
+        };
         model.attributes.content["video_embed_id"] = {
           value: "MNqYeNahqK8"
         };
@@ -1250,15 +1259,25 @@
     };
 
     Post.prototype.save_edit = function(e) {
+      if (Plaza.settings.lang != null) {
+        this.$el.find("[data-content-key]").each((function(_this) {
+          return function(index, content) {
+            if (_this.model.attributes.content[content.getAttribute("data-content-key")].translations == null) {
+              _this.model.attributes.content[content.getAttribute("data-content-key")].translations = {};
+            }
+            return _this.model.attributes.content[content.getAttribute("data-content-key")].translations[Plaza.settings.lang] = content.innerHTML;
+          };
+        })(this));
+      } else {
+        this.$el.find("[data-content-key]").each((function(_this) {
+          return function(index, content) {
+            return _this.model.attributes.content[content.getAttribute("data-content-key")].value = content.innerHTML;
+          };
+        })(this));
+      }
       this.model.set({
-        title: this.$el.find("[data-title]").html(),
         thumbnail: this.$el.find("[data-thumbnail]").attr("src")
       });
-      this.$el.find("[data-content-key]").each((function(_this) {
-        return function(index, content) {
-          return _this.model.attributes.content[content.getAttribute("data-content-key")].value = content.innerHTML;
-        };
-      })(this));
       this.$el.find("[data-content-image-key]").each((function(_this) {
         return function(index, image) {
           return _this.model.attributes.content[image.getAttribute("data-content-image-key")].value = image.getAttribute("src");

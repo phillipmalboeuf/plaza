@@ -88,7 +88,7 @@ window.Plaza =
 			parent = $(e.currentTarget).parent().parent()
 
 			@amount = parseFloat(parent.find("[data-price]").text())*100
-			@name = parent.find("[data-title]").text()
+			@name = parent.find("[data-content-key='title']").text()
 			@checkout.open
 				name: @name,
 				description: parent.find("[data-description]").text(),

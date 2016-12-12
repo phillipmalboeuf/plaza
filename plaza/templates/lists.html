@@ -35,7 +35,7 @@
 		{% if post.is_photo == true %}
 		<div class="text_right padded padded--flat_bottom"><a href="#{{list.route}}" class="overlay__close"><img src="/build/images/close.png" alt="Close"></a></div>
 
-		<p class="text_center" data-title>{{post.title}}</p>
+		<p class="text_center" data-content-key="title">{{post.title}}</p>
 		<img src="{{post.photo}}" class="img--center" data-content-image-key="photo" alt="Photo">
 		{% elif post.is_product == true %}
 		<div class="padded white_back">
@@ -46,7 +46,7 @@
 					<img src="{{post.product_photo}}" data-photo data-content-image-key="product_photo" alt="Photo du produit">
 				</div>
 				<div class="col col--5of12 col--small--12of12">
-					<h2 data-title>{{post.title}}</h2>
+					<h2 data-content-key="title">{{post.title}}</h2>
 					<p class="big_bottom" data-description data-content-key="product_description">{{post.product_description}}</p>
 					<p class="big_bottom"><span data-price data-content-key="product_price">{{post.product_price}}</span>$</p>
 
@@ -57,7 +57,7 @@
 		{% elif post.is_video == true %}
 		<div class="text_right padded padded--flat_bottom"><a href="#{{list.route}}" class="overlay__close"><img src="/build/images/close.png" alt="Close"></a></div>
 
-		<p class="text_center" data-title>{{post.title}}</p>
+		<p class="text_center" data-content-key="title">{{post.title}}</p>
 		<div class="video_container">
 			<iframe src="" data-video-id="{{post.video_embed_id}}" frameborder="0" allowfullscreen scrolling="no"></iframe>
 		</div>

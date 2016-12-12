@@ -39,12 +39,17 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 
 
 	save_edit: (e)->
-		@model.set
-			title: this.$el.find("[data-title]").html()
-			thumbnail: this.$el.find("[data-thumbnail]").attr("src")
+		if Plaza.settings.lang?
+			this.$el.find("[data-content-key]").each (index, content)=>
+				@model.attributes.content[content.getAttribute("data-content-key")].translations = {} unless @model.attributes.content[content.getAttribute("data-content-key")].translations?
+				@model.attributes.content[content.getAttribute("data-content-key")].translations[Plaza.settings.lang] = content.innerHTML
+		
+		else
+			this.$el.find("[data-content-key]").each (index, content)=>
+				@model.attributes.content[content.getAttribute("data-content-key")].value = content.innerHTML
 
-		this.$el.find("[data-content-key]").each (index, content)=>
-			@model.attributes.content[content.getAttribute("data-content-key")].value = content.innerHTML
+		@model.set
+			thumbnail: this.$el.find("[data-thumbnail]").attr("src")
 
 		this.$el.find("[data-content-image-key]").each (index, image)=>
 			@model.attributes.content[image.getAttribute("data-content-image-key")].value = image.getAttribute("src")

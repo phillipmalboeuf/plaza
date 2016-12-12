@@ -36,14 +36,17 @@ class Plaza.Views.List extends Plaza.View
 		model.attributes.content["is_"+type] = {value: true}
 
 		if type == "product"
+			model.attributes.content["title"] = {value: "Nom du produit"}
 			model.attributes.content["product_description"] = {value: "Description du produit"}
 			model.attributes.content["product_price"] = {value: 10.0}
 			model.attributes.content["product_photo"] = {value: ""}
 
 		else if type == "photo"
+			model.attributes.content["title"] = {value: "Nom de la photo"}
 			model.attributes.content["photo"] = {value: ""}
 
 		else if type == "video"
+			model.attributes.content["title"] = {value: "Nom du vidéo"}
 			model.attributes.content["video_embed_id"] = {value: "MNqYeNahqK8"}
 
 		list_route = this.el.getAttribute("data-list")
