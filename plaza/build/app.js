@@ -14,7 +14,7 @@
       this.session = new Plaza.Models.Session();
       this.user = new Plaza.Models.User();
       this.checkout = StripeCheckout.configure({
-        key: "pk_test_0udJQOXLkJu94VVFOzdd6YyX",
+        key: "pk_live_c7xy5E2ZpoiBEqvWhX6JIRoz",
         locale: "auto",
         token: (function(_this) {
           return function(token) {

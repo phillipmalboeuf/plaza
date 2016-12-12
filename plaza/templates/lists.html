@@ -12,7 +12,7 @@
 		<div class="medium_bottom"><span data-key="{{list.route}}_description">{{pieces.lists[list.route + '_description']|safe}}</span> <span data-piece-admin></span></div>
 
 		<div class="padded">
-			<div class="grid grid--guttered">
+			<div class="grid grid--guttered overlay__container__overflow">
 				{% for post in list.posts %}
 				<div class="col col--3of12">
 					<a href="#{{list.route}}/{{post._id}}"><img src="{{post.thumbnail}}" alt="{{post.title}} Thumbnail"></a>

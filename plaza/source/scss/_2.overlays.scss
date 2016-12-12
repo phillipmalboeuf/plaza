@@ -52,7 +52,7 @@
 		width: 100%;
 		max-width: $max_width;
 		max-height: 100vh;
-
+		
 		background-color: white;
 		background-image: url("/build/images/_overlay_top.png"), url("/build/images/_overlay_bottom.png"), url("/build/images/_back.jpg");
 		background-repeat: repeat-x, repeat-x, no-repeat;
@@ -63,6 +63,11 @@
 			background: transparent;
 		}
 	}
+
+		.overlay__container__overflow {
+			overflow-y: auto;
+			max-height: 60vh;
+		}
 
 
 		.overlay__close {
