@@ -77,6 +77,8 @@ with app.app_context():
 
 		@classmethod
 		def preprocess(cls, document):
+			for cache in app.caches:
+				app.caches[cache].clear()
 
 			try:
 				document['authors'] = list(map(ObjectId, document['authors']))
