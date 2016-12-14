@@ -46,13 +46,13 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 		
 		else
 			this.$el.find("[data-content-key]").each (index, content)=>
-				@model.attributes.content[content.getAttribute("data-content-key")].value = content.innerHTML
+				@model.attributes.content[content.getAttribute("data-content-key")] = { value: content.innerHTML }
 
 		@model.set
 			thumbnail: this.$el.find("[data-thumbnail]").attr("src")
 
 		this.$el.find("[data-content-image-key]").each (index, image)=>
-			@model.attributes.content[image.getAttribute("data-content-image-key")].value = image.getAttribute("src")
+			@model.attributes.content[image.getAttribute("data-content-image-key")] = { value: image.getAttribute("src") }
 
 		super()
 

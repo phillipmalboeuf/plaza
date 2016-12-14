@@ -772,9 +772,7 @@
       this.events["click .js-save_edit"] = "save_edit";
       this.events["click .js-destroy"] = "destroy";
       this.listenTo(this.model, "sync", this.render);
-      if ((Plaza.session != null) && Plaza.session.has("user_id")) {
-        this.model.fetch();
-      }
+      this.model.fetch();
       return Editable.__super__.initialize.call(this);
     };
 
@@ -1271,7 +1269,9 @@
       } else {
         this.$el.find("[data-content-key]").each((function(_this) {
           return function(index, content) {
-            return _this.model.attributes.content[content.getAttribute("data-content-key")].value = content.innerHTML;
+            return _this.model.attributes.content[content.getAttribute("data-content-key")] = {
+              value: content.innerHTML
+            };
           };
         })(this));
       }
@@ -1280,7 +1280,9 @@
       });
       this.$el.find("[data-content-image-key]").each((function(_this) {
         return function(index, image) {
-          return _this.model.attributes.content[image.getAttribute("data-content-image-key")].value = image.getAttribute("src");
+          return _this.model.attributes.content[image.getAttribute("data-content-image-key")] = {
+            value: image.getAttribute("src")
+          };
         };
       })(this));
       return Post.__super__.save_edit.call(this);

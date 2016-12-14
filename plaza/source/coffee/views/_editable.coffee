@@ -11,8 +11,7 @@ class Plaza.Views.Editable extends Plaza.View
 
 		this.listenTo @model, "sync", this.render
 
-		if Plaza.session? and Plaza.session.has("user_id")
-			@model.fetch()
+		@model.fetch()
 
 		super()
 
