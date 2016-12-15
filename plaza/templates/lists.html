@@ -47,7 +47,7 @@
 				</div>
 				<div class="col col--5of12 col--small--12of12">
 					<h2 data-content-key="title">{{post.title}}</h2>
-					<p class="big_bottom" data-description data-content-key="product_description">{{post.product_description}}</p>
+					<p class="big_bottom" data-description data-content-key="product_description">{{post.product_description|safe}}</p>
 					<p class="big_bottom"><span data-price data-content-key="product_price">{{post.product_price}}</span>$</p>
 
 					<button data-add-to-cart>{{pieces.lists.add_to_cart}}</button>
