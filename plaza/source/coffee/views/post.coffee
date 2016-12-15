@@ -6,6 +6,8 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 		"click [data-thumbnail]": "trigger_upload"
 		"click [data-content-image-key]": "trigger_upload"
 		"change [data-image-input]": "upload_image"
+		"click [data-remove-option]": "remove_option"
+		"click [data-add-option]": "add_option"
 	}
 
 
@@ -30,6 +32,7 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 			this.$el.find("[data-content-image-key]").each (index, image)=>
 				$(image).addClass "img--clickable"
 
+			this.$el.find("[data-option]").attr "contenteditable", "true"
 
 
 			this.delegateEvents()
@@ -54,7 +57,20 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 		this.$el.find("[data-content-image-key]").each (index, image)=>
 			@model.attributes.content[image.getAttribute("data-content-image-key")] = { value: image.getAttribute("src") }
 
+		options = this.$el.find("[data-option]")
+		if options.length > 0
+			@model.attributes.content.product_options = {value: []}
+			options.each (index, option)=>
+				@model.attributes.content.product_options.value.push option.innerHTML
+
 		super()
+
+
+	remove_option: (e)->
+		$(e.currentTarget).parent().parent().remove()
+
+	add_option: (e)->
+		$(e.currentTarget).before "<div><input type='radio' name='options' id='"+@model.id+"_new' value='new'> <label for='"+@model.id+"_new'><span data-option contenteditable>Nouvelle option</span> <button class='button--transparent small' data-remove-option>(Supprimer)</button></label></div>"
 
 
 

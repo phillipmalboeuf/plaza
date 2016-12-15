@@ -86,10 +86,14 @@
       })(this));
       return $("[data-add-to-cart]").on("click", (function(_this) {
         return function(e) {
-          var parent;
+          var option, parent;
           parent = $(e.currentTarget).parent().parent();
           _this.amount = parseFloat(parent.find("[data-price]").text()) * 100;
           _this.name = parent.find("[data-content-key='title']").text();
+          option = parent.find("[name='options']:checked");
+          if (option.length > 0) {
+            _this.name = _this.name + " (" + option.val() + ")";
+          }
           return _this.checkout.open({
             name: _this.name,
             description: parent.find("[data-description]").text(),
@@ -1228,7 +1232,9 @@
     Post.prototype.events = {
       "click [data-thumbnail]": "trigger_upload",
       "click [data-content-image-key]": "trigger_upload",
-      "change [data-image-input]": "upload_image"
+      "change [data-image-input]": "upload_image",
+      "click [data-remove-option]": "remove_option",
+      "click [data-add-option]": "add_option"
     };
 
     Post.prototype.initialize = function() {
@@ -1251,12 +1257,14 @@
             return $(image).addClass("img--clickable");
           };
         })(this));
+        this.$el.find("[data-option]").attr("contenteditable", "true");
         this.delegateEvents();
       }
       return this;
     };
 
     Post.prototype.save_edit = function(e) {
+      var options;
       if (Plaza.settings.lang != null) {
         this.$el.find("[data-content-key]").each((function(_this) {
           return function(index, content) {
@@ -1285,7 +1293,26 @@
           };
         };
       })(this));
+      options = this.$el.find("[data-option]");
+      if (options.length > 0) {
+        this.model.attributes.content.product_options = {
+          value: []
+        };
+        options.each((function(_this) {
+          return function(index, option) {
+            return _this.model.attributes.content.product_options.value.push(option.innerHTML);
+          };
+        })(this));
+      }
       return Post.__super__.save_edit.call(this);
+    };
+
+    Post.prototype.remove_option = function(e) {
+      return $(e.currentTarget).parent().parent().remove();
+    };
+
+    Post.prototype.add_option = function(e) {
+      return $(e.currentTarget).before("<div><input type='radio' name='options' id='" + this.model.id + "_new' value='new'> <label for='" + this.model.id + "_new'><span data-option contenteditable>Nouvelle option</span> <button class='button--transparent small' data-remove-option>(Supprimer)</button></label></div>");
     };
 
     Post.prototype.trigger_upload = function(e) {

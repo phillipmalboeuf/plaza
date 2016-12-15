@@ -89,6 +89,9 @@ window.Plaza =
 
 			@amount = parseFloat(parent.find("[data-price]").text())*100
 			@name = parent.find("[data-content-key='title']").text()
+			option = parent.find("[name='options']:checked")
+			@name = @name + " (" + option.val() + ")" if option.length > 0
+
 			@checkout.open
 				name: @name,
 				description: parent.find("[data-description]").text(),

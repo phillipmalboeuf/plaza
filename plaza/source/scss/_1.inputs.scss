@@ -114,6 +114,11 @@ input[type="search"] {
 input[type="checkbox"],
 input[type="radio"] {
 	cursor: pointer;
+
+	& + label {
+		font-family: $body_font;
+		font-size: 1rem;
+	}
 }
 
 
