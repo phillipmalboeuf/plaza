@@ -16,6 +16,7 @@
       this.checkout = StripeCheckout.configure({
         key: "pk_live_c7xy5E2ZpoiBEqvWhX6JIRoz",
         locale: "auto",
+        shippingAddress: true,
         token: (function(_this) {
           return function(token) {
             return $.ajax({

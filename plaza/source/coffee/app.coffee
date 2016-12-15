@@ -21,8 +21,9 @@ window.Plaza =
 
 
 		@checkout = StripeCheckout.configure
-			key: "pk_live_c7xy5E2ZpoiBEqvWhX6JIRoz"
+			key: "pk_live_c7xy5E2ZpoiBEqvWhX6JIRoz",
 			locale: "auto",
+			shippingAddress: true,
 			token: (token)=>
 
 				$.ajax
