@@ -56,7 +56,7 @@
 		background-color: white;
 		background-image: url("/build/images/_overlay_top.png"), url("/build/images/_overlay_bottom.png"), url("/build/images/_back.jpg");
 		background-repeat: repeat-x, repeat-x, no-repeat;
-		background-position: center -10px, center calc(100% + 8px), center;
+		background-position: center -12px, center calc(100% + 10px), center;
 		background-size: 100% auto, 100% auto, cover;
 
 		&.overlay__container--transparent {
