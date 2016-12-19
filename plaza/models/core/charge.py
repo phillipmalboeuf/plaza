@@ -33,6 +33,7 @@ with app.app_context():
 				amount=int(data['amount']),
 				currency='cad',
 				source=data['token_id'],
+				receipt_email=data['customer'],
 				description=data['name'] + ' pour : ' + data['customer']
 			)
 
