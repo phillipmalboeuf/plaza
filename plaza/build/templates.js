@@ -59,7 +59,7 @@ this["templates"]["admin/edit_admin"] = Handlebars.template({"compiler":[7,">= 4
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.model : depth0)) != null ? stack1.thumbnail : stack1), depth0))
     + "\" alt=\""
     + alias2(alias1(((stack1 = (depth0 != null ? depth0.model : depth0)) != null ? stack1.title : stack1), depth0))
-    + " Thumbnail\" data-thumbnail>\n</p>\n</div>\n</div>\n";
+    + " Thumbnail\" data-content-image-key=\"thumbnail\">\n</p>\n</div>\n</div>\n";
 },"useData":true});
 
 this["templates"]["admin/file_link"] = Handlebars.template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {

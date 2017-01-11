@@ -1231,7 +1231,6 @@
     }
 
     Post.prototype.events = {
-      "click [data-thumbnail]": "trigger_upload",
       "click [data-content-image-key]": "trigger_upload",
       "change [data-image-input]": "upload_image",
       "click [data-remove-option]": "remove_option",
@@ -1247,11 +1246,6 @@
       Post.__super__.render.call(this);
       if (this.data.is_authenticated) {
         this.$el.find("[data-title]").attr("contenteditable", "true");
-        this.$el.find("[data-thumbnail]").each((function(_this) {
-          return function(index, image) {
-            return $(image).addClass("img--clickable");
-          };
-        })(this));
         this.$el.find("[data-content-key]").attr("contenteditable", "true");
         this.$el.find("[data-content-image-key]").each((function(_this) {
           return function(index, image) {
@@ -1275,6 +1269,14 @@
             return _this.model.attributes.content[content.getAttribute("data-content-key")].translations[Plaza.settings.lang] = content.innerHTML;
           };
         })(this));
+        this.$el.find("[data-content-image-key]").each((function(_this) {
+          return function(index, image) {
+            if (_this.model.attributes.content[content.getAttribute("data-content-image-key")].translations == null) {
+              _this.model.attributes.content[image.getAttribute("data-content-image-key")].translations = {};
+            }
+            return _this.model.attributes.content[image.getAttribute("data-content-image-key")].translations[Plaza.settings.lang] = image.getAttribute("src");
+          };
+        })(this));
       } else {
         this.$el.find("[data-content-key]").each((function(_this) {
           return function(index, content) {
@@ -1283,17 +1285,14 @@
             };
           };
         })(this));
-      }
-      this.model.set({
-        thumbnail: this.$el.find("[data-thumbnail]").attr("src")
-      });
-      this.$el.find("[data-content-image-key]").each((function(_this) {
-        return function(index, image) {
-          return _this.model.attributes.content[image.getAttribute("data-content-image-key")] = {
-            value: image.getAttribute("src")
+        this.$el.find("[data-content-image-key]").each((function(_this) {
+          return function(index, image) {
+            return _this.model.attributes.content[image.getAttribute("data-content-image-key")] = {
+              value: image.getAttribute("src")
+            };
           };
-        };
-      })(this));
+        })(this));
+      }
       options = this.$el.find("[data-option]");
       if (options.length > 0) {
         this.model.attributes.content.product_options = {

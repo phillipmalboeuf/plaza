@@ -3,7 +3,7 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 
 
 	events: {
-		"click [data-thumbnail]": "trigger_upload"
+		# "click [data-thumbnail]": "trigger_upload"
 		"click [data-content-image-key]": "trigger_upload"
 		"change [data-image-input]": "upload_image"
 		"click [data-remove-option]": "remove_option"
@@ -25,8 +25,8 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 
 		if @data.is_authenticated
 			this.$el.find("[data-title]").attr "contenteditable", "true"
-			this.$el.find("[data-thumbnail]").each (index, image)=>
-				$(image).addClass "img--clickable"
+			# this.$el.find("[data-thumbnail]").each (index, image)=>
+			# 	$(image).addClass "img--clickable"
 
 			this.$el.find("[data-content-key]").attr "contenteditable", "true"
 			this.$el.find("[data-content-image-key]").each (index, image)=>
@@ -46,16 +46,21 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 			this.$el.find("[data-content-key]").each (index, content)=>
 				@model.attributes.content[content.getAttribute("data-content-key")].translations = {} unless @model.attributes.content[content.getAttribute("data-content-key")].translations?
 				@model.attributes.content[content.getAttribute("data-content-key")].translations[Plaza.settings.lang] = content.innerHTML
+
+			this.$el.find("[data-content-image-key]").each (index, image)=>
+				@model.attributes.content[image.getAttribute("data-content-image-key")].translations = {} unless @model.attributes.content[content.getAttribute("data-content-image-key")].translations?
+				@model.attributes.content[image.getAttribute("data-content-image-key")].translations[Plaza.settings.lang] = image.getAttribute("src")
 		
 		else
 			this.$el.find("[data-content-key]").each (index, content)=>
 				@model.attributes.content[content.getAttribute("data-content-key")] = { value: content.innerHTML }
 
-		@model.set
-			thumbnail: this.$el.find("[data-thumbnail]").attr("src")
+			this.$el.find("[data-content-image-key]").each (index, image)=>
+				@model.attributes.content[image.getAttribute("data-content-image-key")] = { value: image.getAttribute("src") }
 
-		this.$el.find("[data-content-image-key]").each (index, image)=>
-			@model.attributes.content[image.getAttribute("data-content-image-key")] = { value: image.getAttribute("src") }
+		# @model.attributes.thumbnail = this.$el.find("[data-thumbnail]").attr("src")
+
+		
 
 		options = this.$el.find("[data-option]")
 		if options.length > 0
