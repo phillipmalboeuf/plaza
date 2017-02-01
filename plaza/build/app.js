@@ -1271,7 +1271,7 @@
         })(this));
         this.$el.find("[data-content-image-key]").each((function(_this) {
           return function(index, image) {
-            if (_this.model.attributes.content[content.getAttribute("data-content-image-key")].translations == null) {
+            if (_this.model.attributes.content[image.getAttribute("data-content-image-key")].translations == null) {
               _this.model.attributes.content[image.getAttribute("data-content-image-key")].translations = {};
             }
             return _this.model.attributes.content[image.getAttribute("data-content-image-key")].translations[Plaza.settings.lang] = image.getAttribute("src");

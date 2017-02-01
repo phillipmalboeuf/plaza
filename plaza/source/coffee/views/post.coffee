@@ -48,7 +48,7 @@ class Plaza.Views.Post extends Plaza.Views.Editable
 				@model.attributes.content[content.getAttribute("data-content-key")].translations[Plaza.settings.lang] = content.innerHTML
 
 			this.$el.find("[data-content-image-key]").each (index, image)=>
-				@model.attributes.content[image.getAttribute("data-content-image-key")].translations = {} unless @model.attributes.content[content.getAttribute("data-content-image-key")].translations?
+				@model.attributes.content[image.getAttribute("data-content-image-key")].translations = {} unless @model.attributes.content[image.getAttribute("data-content-image-key")].translations?
 				@model.attributes.content[image.getAttribute("data-content-image-key")].translations[Plaza.settings.lang] = image.getAttribute("src")
 		
 		else
