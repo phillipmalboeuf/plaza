@@ -9,7 +9,7 @@
 		<div class="text_right"><a href="#index" class="overlay__close"><img src="/build/images/close.png" alt="Close"></a></div>
 
 		<h2 class="text_center"><span data-key="{{list.route}}_title">{{pieces.lists[list.route + '_title']|safe}}</span></h2>
-		<div class="medium_bottom"><span data-key="{{list.route}}_description">{{pieces.lists[list.route + '_description']|safe}}</span> <span data-piece-admin></span></div>
+		<div class="medium_bottom"><span data-key="{{list.route}}_description">{{pieces.lists[list.route + '_description']|safe|urlize(40, target='_blank')}}</span> <span data-piece-admin></span></div>
 
 		<div class="padded">
 			<div class="grid grid--guttered overlay__container__overflow">
