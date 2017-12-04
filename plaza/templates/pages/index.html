@@ -9,7 +9,16 @@
 	<p>
 		<a href="{{pieces.index.other_lang_link}}" data-link-key="other_lang_link"><span data-key="other_lang">{{pieces.index.other_lang}}</span></a>
 	</p>
-	<img src="{{pieces.index.sign}}" data-image-key="sign">
+	<img class="normal_bottom" src="{{pieces.index.sign}}" data-image-key="sign">
+
+	<span class="hide_on_medium">
+	<p class="p--small"><span data-key="foodchain_cta">{{pieces.index.foodchain_cta}}</span></p>
+	<a href="{{pieces.index.foodchain_link}}" target="_blank">
+		<img src="{{pieces.index.foodchain_image}}" style="max-width: none; margin-top: -1.33em; margin-bottom: -0.8em;" data-image-key="foodchain_image">
+		<p class="p--small"><span data-key="foodchain_link_label" class="highlight">{{pieces.index.foodchain_link_label}}</span><br><small data-key="foodchain_desc">{{pieces.index.foodchain_desc}}</small></p>
+	</a>
+	</span>
+	
 	<span data-piece-admin></span>
 </header>
 
@@ -43,6 +52,14 @@
 		<a href="{{pieces.index.menu_en_link}}" target="_blank" data-file-link-key="menu_en_link"><span data-key="menu_en">{{pieces.index.menu_en}}</span></a><br>
 		<a href="{{pieces.index.wines_link}}" target="_blank" data-file-link-key="wines_link"><span data-key="wines">{{pieces.index.wines}}</span></a>
 	</p>
+
+	<span class="medium_only">
+	<p class="p--small"><span data-key="foodchain_cta">{{pieces.index.foodchain_cta}}</span></p>
+	<a href="{{pieces.index.foodchain_link}}" target="_blank">
+		<img src="{{pieces.index.foodchain_image}}" style="max-width: 66%; margin: -1.33em auto -0.8em;" data-image-key="foodchain_image">
+		<p class="p--small"><span data-key="foodchain_link_label" class="highlight">{{pieces.index.foodchain_link_label}}</span><br><small data-key="foodchain_desc">{{pieces.index.foodchain_desc}}</small></p>
+	</a>
+	</span>
 
 	<span data-piece-admin></span>
 </div>

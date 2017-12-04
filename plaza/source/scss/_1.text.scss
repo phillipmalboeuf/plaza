@@ -89,6 +89,16 @@ p,
 		font-size: $medium_size;
 	}
 
+	&.p--small,
+	.small & {
+		font-size: 0.75em;
+		line-height: 1;
+
+		small {
+			font-family: $body_font;
+		}
+	}
+
 	&:last-child {
 		margin-bottom: 0;
 	}
@@ -225,6 +235,7 @@ sub {
 
 // #COLORS
 .white { color: $white; }
+.highlight { color: $highlight; }
 
 
 // #MISC
